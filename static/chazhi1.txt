@@ -1,0 +1,36 @@
+<style>
+       .profile {
+         display: inline-block;
+         width: 300px;
+       }
+     </style>
+     <div id="app" style="margin-left: 300px;">
+       <h2>文本插值</h2>
+       <p><label class="pro file">变量：</label> {{ num }}</p>
+       <p><label class="pro file">表达式：</label> {{ 5 + 10 }}</p>
+       <p><label class="pro file">三目运算符：</label> {{ true ? 15 : 10  }}</p>
+       <p><label class="pro file">函数：</label> {{ getNum() }}</p>
+       <p><label class="pro file">匿名函数：</label> {{ (() => 5 + 10)() }}</p>
+       <p><label class="pro file">对象：</label> {{ {num: 15} }}</p>
+       <p><label class="pro file">函数对象：</label> {{ getNum }}</p>
+       <p><label class="pro file">html代码（表达式）:</label> {{ '<span>15</span>'}}</p>
+       <p><label class="pro file">html代码（变量）:</label> {{ html }}</p>
+     </div>
+     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.
+     js"></script>
+     <script type="text/javascript">
+       let vm = new Vue({
+         el: '#app',
+         data () {
+            return {
+              num: 15,
+              html: '<span>15</span>'
+            }
+         },
+         methods: {
+            getNum () {
+              return this.num
+            }
+         }
+       })
+     </script>

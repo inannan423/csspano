@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 让页面的颜色随时间变化，变化顺序为红黄绿蓝 -->
+    <div id="time" style="color: #ffffff;font-size: 30px;"></div>
+    <script>
+        var time = document.getElementById('time');
+        var color = ['red', 'yellow', 'green', 'blue'];
+        var i = 0;
+        setInterval(function () {
+            time.style.color = color[i];
+            i++;
+            if (i == 4) {
+                i = 0;
+            }
+        }, 1000);
+    </script>
+    
+    
+</body>
+</html>

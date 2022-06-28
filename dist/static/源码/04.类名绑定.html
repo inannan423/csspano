@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<style>
+  .color-gray { color: gray; }
+  .size-18 { font-size: 18px; }
+  .style-italic { font-style: italic; }
+</style>
+<div id="app">
+  <p class="color-gray size-18 style-italic">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :class="classStr">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :class="classArr">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :class="classObj1">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :class="classObj2">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+<script type="text/javascript">
+  let vm = new Vue({
+    el: '#app',
+    data () {
+      return {
+        classStr: 'color-gray size-18 style-italic', // 拼接字符串
+        classArr: ['color-gray', 'size-18', 'style-italic'], // 数组
+        classObj1: { // 对象，绑定类名
+          'color-gray': true,
+          'size-18': true,
+          'style-italic': true
+        },
+        classObj2: { // 对象，未绑定类名
+          'color-gray': 0,
+          'size-18': ‘’,
+          'style-italic': false
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

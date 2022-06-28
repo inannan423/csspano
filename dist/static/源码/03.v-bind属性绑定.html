@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<style>
+  .italic { font-style: italic; }
+</style>
+<div id="app" style="margin-left: 300px;">
+  <p v-bind:class="className" v-bind:title="title">危险勿触</p>
+  <button v-bind:disabled="10 + 10 === 20">点击有奖</button>
+  <input v-bind:type="'text'" v-bind::placeholder="true ? '请输入' : '请录入'">
+  <p :class="className" :title="title">危险勿触</p>
+  <button :disabled="10 + 10 === 20">点击有奖</button>
+  <input :type="'text'" :placeholder="true ? '请输入' : '请录入'">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+<script type="text/javascript">
+  let vm = new Vue({
+    el: '#app',
+    data () {
+      return {
+        className: 'italic',
+        title: '危险勿触'
+      }
+    }
+  })
+</script>
+</body>
+</html>

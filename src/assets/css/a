@@ -1,0 +1,86 @@
+<template>
+  <div id="app">
+    <el-row  class="tac guider">
+      <el-col :span="10">
+        <div class="Title">
+          <img src="../src/assets/mylogo.png" alt="Welcome!" class="mylogo">
+        </div>
+        <el-menu 
+          default-active="2"
+          class="menu el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          background-color="#409EFF"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+          <el-submenu index="1" >
+            <template slot="title">
+              <!-- <i class="el-icon-location" :style="{color:iconColor}"></i> -->
+              <img src="../src/assets/logo.png" class="vu" alt="Vue">
+              <span>Vue.js</span>
+            </template>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data(){
+    iconColor:'white';
+    return{
+      msg:"hello!"
+    }
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
+}
+</script>
+<style scoped>@import '../src/assets/css/index.css';</style>
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.mylogo{
+  width: 150px;
+  margin-top: 40px;
+}
+.el-submenu__title{
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-left: -20px;
+}
+.el-submenu__title i{
+  color: white;
+  
+}
+.menu{
+  margin-top:0;
+  height: 1000px;
+  
+}
+.el-submenu__icon-arrow{
+  font-size: 20px;
+}
+.vu{
+  height: 20px;
+  
+}
+</style>

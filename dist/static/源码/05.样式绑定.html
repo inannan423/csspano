@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<div id="app">
+  <p style="color: gray;font-size: 18px;font-style: italic;">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :style="styleStr">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :style="styleObj1">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+  <p :style="styleObj2">《Vue2.0 从入门到实战》，用心良苦，伴你成长</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+<script type="text/javascript">
+  let vm = new Vue({
+    el: '#app',
+    data () {
+      return {
+        styleStr: 'color: gray;font-size: 18px;font-style: italic;', // 拼接字符串
+        styleObj1: { // 对象，绑定样式
+          'color': -1 ? 'gray' : 'black',
+          'font-size': '18px',
+          'font-style': 'italic'
+        },
+        styleObj2: { // 对象，未绑定样式
+          'color': 0 ? 'gray' : '',
+          'font-size': '' ? '18px' : '',
+          'font-style': null ? 'italic' : ''
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

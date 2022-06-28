@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<div id="app">
+  <button v-on:click="logInfo()">打印消息(default: Hello World)</button>
+  <br>
+  <button v-on:click="logInfo('Self Message')">打印消息(Self Message)</button>
+  <br>
+  <button v-on:click="console.log('A Vue App')">打印消息(A Vue App)</button>
+  <!-- <button @click="logInfo()">打印消息(default: Hello World)</button> -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+<script type="text/javascript">
+  let vm = new Vue({
+    el: '#app',
+    methods: {
+      logInfo (msg) {
+        console.log(msg || 'Hello World')
+      }
+    }
+  })
+</script>
+</body>
+</html>
