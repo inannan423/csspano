@@ -237,6 +237,11 @@
     color: #ffffff;
     cursor: pointer;
     font-family: codesans;
+    transition: all 1s ease-in-out;
+  }
+
+  .toptip:hover {
+    color: #404040;
   }
 
   .jets {
@@ -259,7 +264,8 @@
         </div>
       </a>
 
-      <img src="../src/assets/mylogo.png" class="mylogo" alt="" />
+      <router-link class="a" to="/"><img src="../src/assets/mylogo.png" class="mylogo" alt="" />
+      </router-link>
       <!-- <a href="https://inannan423.github.io"><img src="../src/assets/jet.png" class="git1" target="_blank"
           alt="Jetzihan" /></a> -->
       <a href="https://github.com/inannan423/csspano" target="_blank"><img src="../src/assets/github.png" class="git"
@@ -292,7 +298,7 @@
                   <el-menu-item index="2-3"> 海滩 </el-menu-item>
                 </router-link>
               </el-submenu>
-              <router-link class="a" to="/">
+              <router-link class="a" to="/upload">
                 <el-menu-item index="3"><img class="myicon" src="../src/assets/media.png" alt="" />上传图片
                 </el-menu-item>
               </router-link>

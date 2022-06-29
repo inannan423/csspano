@@ -5,6 +5,7 @@ import Dailyvue from '@/components/Dailyvue'
 import chazhi from '@/pages/chazhi'
 import playcanvas from '@/components/playcanvas'
 import Home from '@/components/Home'
+import upload from '@/components/upload'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
       path: '/chazhi',
       name: 'chazhi',
       component: chazhi
+    },
+     {
+      path: '/upload',
+      name: 'upload',
+      component: upload
     }
   ]
 })
