@@ -2,12 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 import Clipboard from 'clipboard'
 import hl from 'highlight.js' // 导入代码高亮文件
 import 'highlight.js/styles/a11y-dark.css' // 导入代码高亮样式,
+import '../theme/index.css'
+import router from './router'
 // import VueCodemirror from 'vue-codemirror'
 // import 'codemirror/lib/codemirror.css'
 
