@@ -42,6 +42,7 @@
 			<!-- </el-row> -->
 		</div>
 		<!-- </el-card> -->
+		<img class="tip3" src="../assets/tip.png">
 	</div>
 </template>
 
@@ -323,6 +324,16 @@
 </script>
 
 <style>
+	.tip3 {
+		position: absolute;
+		top: 410px;
+		left: 130px;
+
+		z-index: 0;
+		width: 85%;
+		height: auto;
+	}
+
 	.el1 {
 		display: flex;
 		float: left;

@@ -252,7 +252,7 @@
   }
 </style>
 <template>
-  <div class="main" id="app" oncontextmenu="return false" style="background-color: #ffffff8a; min-height: 800px">
+  <div class="main" id="app" oncontextmenu="return false" style="background-color: #ffffff8a; min-height: 1100px">
     <template>
       <el-backtop></el-backtop>
     </template>
