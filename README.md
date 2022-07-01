@@ -1,27 +1,25 @@
-## Introduction
+# CSSPANO
 
-<h4>vue + three.js + element 构建的简易全景图</h4>
-## Project setup
-```
-npm install (初始化项目)
-```
+## 基于vue2\three.js\element的全景图项目
 
-### Compiles and hot-reloads for development
+## 初始化
 
 ```
-npm run dev (运行项目)
+npm install
 ```
 
-### Compiles and minifies for production
+## 运行
 
 ```
-npm run build (打包项目)
+npm run dev
 ```
 
-### Customize configuration
+## 构建
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+npm run build
+```
 
-Copyright (c) 2021-present
-
-## 今天加了什么 --谁谁谁
+## 更新日志
+<!-- 每行最后敲两个空格换行 -->
+7-1 @czh 主要功能实现  
