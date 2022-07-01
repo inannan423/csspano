@@ -149,9 +149,14 @@
 			rendererInit() { //初始化渲染器
 				var width = 1100; //窗口宽度
 				var height = 600; //窗口高度
-				this.renderer = new THREE.WebGLRenderer(); //创建渲染器
+
+				//this.renderer = new THREE.WebGLRenderer(); //创建渲染器
+				this.renderer = new THREE.WebGLRenderer({
+					antialias: true,     //抗锯齿
+				});
 				this.renderer.setClearColor(0xffffff); //添加背景颜色
 				this.renderer.setSize(width, height); // 设定渲染器尺寸
+				this.renderer.setPixelRatio(window.devicePixelRatio);
 				this.$refs.threeDom.appendChild(this.renderer.domElement);
 			},
 

@@ -3,7 +3,7 @@
         <el-card class="card">
             <div slot="header">
                 <div class="card-title">
-                    <span>简易版全景图2</span>
+                    <span></span>
 
                     <div class="card-property">
                         <span ref='property'></span>
