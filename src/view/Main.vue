@@ -96,7 +96,7 @@
 				meshSphere.name = '球体容器';
 				this.mygroup.add(meshSphere);
 
-				var canvasText = this.getcanvers('进门'); //生成一个canvers 文字图案对象
+				var canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象
 				var texture = new THREE.CanvasTexture(canvasText);
 				var geometryText = new THREE.PlaneGeometry(16, 10, 60, 60);
 				var materialText = new THREE.MeshPhongMaterial({
@@ -104,7 +104,7 @@
 					side: THREE.DoubleSide, //双面渲染
 				});
 				var meshText = new THREE.Mesh(geometryText, materialText);
-				meshText.name = '进门';
+				meshText.name = '闪现';
 				meshText.position.set(40, 20, -90)
 				this.mygroup.add(meshText);
 
@@ -192,11 +192,14 @@
 				var canvasText = document.createElement("canvas");
 				var c = canvasText.getContext('2d');
 				// 矩形区域填充背景
-				c.fillStyle = "#FFFFFF"; //canver背景
+				c.fillStyle = "rgba(255,215,0,0.1)";
+				c.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
+				c.border = "thin dotted #FF0000";
+				c.borderRadius = "20px";
 				c.fillRect(0, 0, 300, 200); //生成一个矩形
 				c.translate(160, 80);
-				c.fillStyle = "#000000"; //文本填充颜色
-				c.font = "bold 100px 宋体"; //字体样式设置
+				c.fillStyle = "black"; //文本填充颜色
+				c.font = "bold 100px 等线"; //字体样式设置
 				c.textBaseline = "middle"; //文本与
 				c.textAlign = "center"; //文本居中
 				c.fillText(text, 0, 0);
@@ -209,7 +212,7 @@
 				});
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = text;
-				meshText.position.set(40, 20, -90);
+				meshText.position.set(190, 140, 90);
 				return canvasText;
 			},
 
@@ -231,7 +234,7 @@
 								type: 'warning'
 							}).then(() => {
 								this.action.paused = false; //开启旋转
-								if (item.object.name == '进门') {
+								if (item.object.name == '闪现') {
 									this.changeScene('enter'); //改变页面场景
 								} else if (item.object.name == '返回') {
 									this.changeScene('backtrack'); //改变页面场景
@@ -257,8 +260,8 @@
 					names = '返回';
 				} else if (type == 'backtrack') { //返回房间
 					img = textureLoader.load(require('../../public/img/home3.jpeg')); //vue加载图表需要用 require形式	
-					canvasText = this.getcanvers('进门'); //生成一个canvers 文字图案对象	
-					names = '进门';
+					canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象	
+					names = '闪现';
 				}
 
 				for (var item of this.scene.children[2].children) {
@@ -268,7 +271,7 @@
 							side: THREE.DoubleSide, //双面渲染
 						});
 						item.material = material;
-					} else if (item.name == '进门' || item.name == '返回') {
+					} else if (item.name == '闪现' || item.name == '返回') {
 						var texture = new THREE.CanvasTexture(canvasText);
 						var materialText = new THREE.MeshPhongMaterial({
 							map: texture, // 设置纹理贴图
