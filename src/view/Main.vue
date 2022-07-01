@@ -315,15 +315,23 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.tip3 {
+		/*
 		position: absolute;
-		top: 410px;
+		bottom: 10px;
 		left: 130px;
 
 		z-index: 0;
 		width: 85%;
+		height: auto;*/
+		position: absolute;
+		bottom: -370px;
+		left: 130px;
+		z-index: 0;
+		width: 85%;
 		height: auto;
+		background: none;
 	}
 
 	.el1 {
@@ -339,13 +347,17 @@
 	}
 
 	.noe {
-		width: 1200px;
+		width: 1000px;
 		height: 50px;
 		display: flex;
 		position: absolute;
-		top: 350px;
-		left: 260px;
-
+		/*top:350px;
+		width: 1200px;
+		left:260px;
+		*/
+		top: 620px;
+		left: 80px;
+		z-index: 10;
 		flex: 1;
 	}
 
@@ -365,7 +377,7 @@
 	}
 
 	.homePage {
-		position: relative;
+		/*		position: relative;
 		top: 290px;
 		left: 90px;
 		height: 600px;
@@ -373,8 +385,16 @@
 		font-size: 14px;
 		color: #303133;
 		display: flex;
+		margin: 0 auto;*/
+		position: relative;
+		top: 0px;
+		left: -100px;
+		height: 560px;
+		width: 1100px;
+		font-size: 14px;
+		color: #303133;
+		display: flex;
 		margin: 0 auto;
-
 	}
 
 	.card {

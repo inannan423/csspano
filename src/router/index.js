@@ -1,12 +1,14 @@
 
 import Vue from 'vue'
-import Main from '../view/Main'
+
 import engine from '../view/engine'
 import jiguang from '../view/jiguang'
 import haitan from '../view/haitan'
 import lasa from '../view/lasa'
 import riluo from '../view/riluo'
 import upload from '../view/upload'
+import about from '../view/about'
+import Main from '../view/Main'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -47,6 +49,6 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component: upload
-    },
+    }
   ]
 })

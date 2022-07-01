@@ -305,6 +305,10 @@
                 <el-menu-item index="3"><img class="myicon" src="../src/assets/media.png" alt="" />上传图片
                 </el-menu-item>
               </router-link>
+              <router-link class="a" to="/engine">
+                <el-menu-item index="4"><img class="myicon" src="../src/assets/about.png" alt="" />关于
+                </el-menu-item>
+              </router-link>
             </el-menu>
             <a href="https://inannan423.github.io" target="_blank">
               <img src="./assets/jet.png" class="jets" alt="jet"></a>
