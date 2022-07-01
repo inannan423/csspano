@@ -288,15 +288,19 @@
                   <img class="myicon" src="../src/assets/logo.png" alt="" />
                   <span>场景</span>
                 </template>
-                <router-link class="a" to="/Daily">
+                <router-link class="a" to="/jisuang">
                   <el-menu-item index="2-1"> 极光星空 </el-menu-item>
                 </router-link>
-                <router-link class="a" to="/HelloWorld">
+                <router-link class="a" to="/lasa">
                   <el-menu-item index="2-2"> 拉萨 </el-menu-item>
                 </router-link>
-                <router-link class="a" to="/chazhi">
+                <router-link class="a" to="/haitan">
                   <el-menu-item index="2-3"> 海滩 </el-menu-item>
                 </router-link>
+                <router-link class="a" to="/riluo">
+                  <el-menu-item index="2-4"> 日落 </el-menu-item>
+                </router-link>
+
               </el-submenu>
               <router-link class="a" to="/upload">
                 <el-menu-item index="3"><img class="myicon" src="../src/assets/media.png" alt="" />上传图片

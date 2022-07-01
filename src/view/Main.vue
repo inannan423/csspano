@@ -1,53 +1,34 @@
 <template>
 	<div class="homePage">
-		<!-- <el-card class="card"> -->
 		<div slot="header">
 			<div class="card-title">
-				<!-- <span>简易版全景图</span> -->
-
-				<div class="card-property">
+				<div class="cardmini">
 					<span ref='property'></span>
 				</div>
-
 			</div>
 		</div>
 
-		<div class="card-content">
+		<div class="mainpart">
 			<div ref='threeDom' class="model"></div>
-
-			<!-- <div class="control">
-					<span class="control-title">控制台</span>
-
-					<div class="control-block">
-						<span class="control-block-title">是否自动旋转</span>
-						<el-radio-group v-model="isRotate" @change="isSpin">
-							<el-radio :label="1">开启</el-radio>
-							<el-radio :label="0">关闭</el-radio>
-						</el-radio-group>
-					</div>
-				</div> -->
+			<!-- 渲染槽,threejs渲染的画面将在这个接口显示 -->
 		</div>
 		<div class="noe">
-
-
-			<!-- <el-row style="width: 1100px;"> -->
 			<div class="el1"><img src="../assets/rt.png" class="rt1" alt="Power.">
 			</div>
 			<div class="el2">
-				<el-switch active-text="自动滚动开启" inactive-text="自动滚动关闭" class="switch" v-model="value"
-					active-color="#ffd000" inactive-color="black">
+				<!-- 按钮,开启\关闭自动滚动 -->
+				<el-switch inactive-text="自动滚动开启" active-text="自动滚动关闭" class="switch" v-model="isRotate"
+					active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black" @change="isSpin">
 				</el-switch>
 			</div>
-
-			<!-- </el-row> -->
 		</div>
-		<!-- </el-card> -->
 		<img class="tip3" src="../assets/tip.png">
 	</div>
 </template>
 
 <script>
 	import axios from 'axios';
+	//异步跨域处理
 	import * as THREE from "three";
 	import * as TrackballControls from 'three-trackballcontrols'
 	import * as ThreeStats from 'three-stats'
@@ -60,6 +41,7 @@
 		},
 		data() {
 			return {
+				//vue数据容器
 				renderer: '', //渲染器
 				scene: '', //场景
 				light: '', //光源
@@ -72,16 +54,18 @@
 				clock: '', //时钟
 				mixer: '', //混合实例
 				rotateAnimate: '', //旋转动画
-				isRotate: 1, //是否开启旋转
+				isRotate: 0, //是否开启旋转
 				value: true
 			}
 		},
 
 		mounted() {
+			//钩子函数，在页面渲染完成后执行的dom操作
 			this.init(); //初始化
 		},
 
 		methods: {
+			//js方法写在这里面
 			init() {
 				this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
 				this.rendererInit(); //创建渲染器
@@ -397,7 +381,7 @@
 		height: 700px;
 	}
 
-	.card-property {
+	.cardmini {
 		position: relative;
 		width: 70px;
 		height: 40px;
@@ -405,7 +389,7 @@
 	}
 
 	/*全景图画框*/
-	.card-content {
+	.mainpart {
 		display: flex;
 		box-shadow: 10px 10px #ecd98476;
 		border-radius: 25px;
