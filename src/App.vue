@@ -29,7 +29,6 @@
     display: flex;
     align-items: center;
     border-bottom: 0.1px solid #FFC300;
-    /* border-top: 7px solid #FFC300;*/
     background-color: rgba(255, 255, 255, 0.77);
     backdrop-filter: blur(10px);
   }
