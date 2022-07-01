@@ -1,11 +1,7 @@
 
 import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld'
-import Dailyvue from '@/components/Dailyvue'
-import chazhi from '@/pages/chazhi'
-import playcanvas from '@/components/playcanvas'
-import Home from '@/components/Home'
-import upload from '@/components/upload'
+import Main from '../view/Main'
+import engine from '../view/engine'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -14,33 +10,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Main',
+      component: Main
     },
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/Daily',
-      name: 'Daily',
-      component: Dailyvue
-    },
-    {
-      path: '/playcanvas',
-      name: 'playcanvas',
-      component: playcanvas
-    },
-    {
-      path: '/chazhi',
-      name: 'chazhi',
-      component: chazhi
-    },
-     {
-      path: '/upload',
-      name: 'upload',
-      component: upload
+      path: '/engine',
+      name: 'engine',
+      component: engine
     }
   ]
 })

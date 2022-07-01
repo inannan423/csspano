@@ -326,10 +326,8 @@
 <!-- <script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.65.3/codemirror.js"></script> -->
 
 <script type="text/ecmascript-6">
-import pdf from "vue-pdf";
 export default {
   components: {
-    pdf,
   },
   data() {
     return {
