@@ -315,6 +315,7 @@
           <!-- 组件化显示内容 -->
 
           <router-view></router-view>
+          <!-- 模板 -->
           <!-- <a
             href="https://console.cloud.tencent.com/tcb/hosting/index?envId=nannan-8gceb5nt124c014d&rid=4&moduleName=&tabId=file"><img
               src="./assets/rt.png" class="rt" alt="Power."></a> -->
