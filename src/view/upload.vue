@@ -71,6 +71,7 @@
         data() {
             return {
                 picurl: '',
+                img1: '',
                 //isRotate: 0,
                 //vue数据容器
                 renderer: '', //渲染器
@@ -88,7 +89,8 @@
                 value: true,
                 //dispaly数据
                 temp: {
-                    isdisplay: true
+                    isdisplay: true,
+                    img: ''
                 }
 
             }
@@ -117,6 +119,7 @@
                 }
                 Pictures.click()
             },
+            /*
             buildPano(el) {
                 console.log('!!!!!');
                 // 初始化场景
@@ -125,10 +128,10 @@
                     output: 'console'  // 为了后面打印位置信息
                 })
                 // 传入官方案例的全景图片，初始化一个球形的全景
-                this.panorama_main_image = new PANOLENS.ImagePanorama('../../public/img/home1.jpg')
+                this.panorama_main_image = new PANOLENS.ImagePanorama(this.picurl)
                 // 把全景添加到场景中
                 this.viewer_main.add(this.panorama_main_image)
-            },
+            },*/
             uploadFile(el) {
                 this.$set(this.temp, 'isdisplay', false);
                 this.$message({
@@ -136,7 +139,10 @@
                     type: 'success'
                 });
                 if (el && el.target && el.target.files && el.target.files.length > 0) {
-                    console.log(el)
+                    console.log('sss', el)
+                    console.log('sss', el.target.files)
+                    this.$set(this.temp, 'img', el);
+
                     const files = el.target.files[0]
                     const isLt2M = files.size / 1024 / 1024 < 100
                     //大小限制100MB
@@ -168,7 +174,7 @@
 
             // threejs方法
             init() {
-                this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
+                //this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
                 this.rendererInit(); //初始化渲染器
                 this.sceneInit(); //初始化场景
                 this.cameraInit(); //创建相机
@@ -181,8 +187,10 @@
                 //模型建立函数
                 this.mygroup = new THREE.Group();
                 var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
-                var img = textureLoader.load(require('../../public/img/home3.jpeg'));
+
+                var img = textureLoader.load(this.temp.img);
                 //加载全景图资源
+                //var img = textureLoader.load(link);
 
                 var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
                 var material = new THREE.MeshLambertMaterial({
@@ -255,7 +263,10 @@
                 this.renderer.setClearColor(0xffffff); //添加背景颜色
                 this.renderer.setSize(width, height); // 设定渲染器尺寸
                 this.renderer.setPixelRatio(window.devicePixelRatio);
-                this.$refs.threeDom.appendChild(this.renderer.domElement);
+                setTimeout(() => {
+                    this.$refs.threeDom.appendChild(this.renderer.domElement);
+                }, 8000)
+
             },
 
             sceneInit() { //初始化场景 并向场景添加光源和辅助坐标系
@@ -287,7 +298,10 @@
                 this.stats = new ThreeStats.Stats(); // 创建一个性能监视器	
                 this.stats.dom.style.position = 'absolute';
                 this.stats.dom.style.top = '-4px';
-                this.$refs.property.appendChild(this.stats.dom);
+                //setTimeout(() => {
+                //this.$refs.property.appendChild(this.stats.dom);
+                //}, 15000)
+
                 this.stats.update();
             },
 
@@ -358,11 +372,11 @@
                 var canvasText = '';
                 var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
                 if (type == 'enter') {
-                    img = textureLoader.load(require('../../public/img/home1.jpg')); //vue加载图表需要用 require形式
+                    img = textureLoader.load(this.picurl); //vue加载图表需要用 require形式
                     canvasText = this.getcanvers('返回'); //生成一个canvers 文字图案对象	
                     names = '返回';
                 } else if (type == 'backtrack') { //返回房间
-                    img = textureLoader.load(require('../../public/img/home3.jpeg')); //vue加载图表需要用 require形式	
+                    img = textureLoader.load(this.picurl); //vue加载图表需要用 require形式	
                     canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象	
                     names = '闪现';
                 }

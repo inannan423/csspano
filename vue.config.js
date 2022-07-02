@@ -9,7 +9,7 @@ module.exports = {
 		proxy: {
 			//配置跨域
 			'/api': {
-				target: "192.168.0.170",
+				target: "tva1.sinaimg.cn",
 				changOrigin: true,
 				pathRewrite: {
 					'^/api': '/'
