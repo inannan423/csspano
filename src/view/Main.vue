@@ -1,31 +1,74 @@
 <template>
-	<div class="homePage">
-		<div slot="header">
-			<div class="card-title">
-				<div class="cardmini">
-					<span ref='property'></span>
-				</div>
-			</div>
+	<div class="main">
+		<div class="cardmini">
+			<span ref='property'></span>
+			<!-- 性能检测空间，已隐藏 -->
 		</div>
-
-		<div class="mainpart">
-			<div ref='threeDom' class="model"></div>
-			<!-- 渲染槽,threejs渲染的画面将在这个接口显示 -->
-		</div>
-		<div class="noe">
-			<div class="el1"><img src="../assets/rt.png" class="rt1" alt="Power.">
-			</div>
-			<div class="el2">
+		<!-- 第一行 -->
+		<el-row>
+			<el-col :span="24" class="dvbox">
+				<div ref='threeDom' class="model"></div>
+				<!-- threejs渲染槽 -->
+			</el-col>
+		</el-row>
+		<!-- 第二行 -->
+		<el-row style="margin-top:20px ;width: 85%;">
+			<!-- 第一列 -->
+			<el-col :span="12">
+				<!-- threejs图片 -->
+				<img src="../assets/rt.png" class="rt1" alt="Power.">
+			</el-col>
+			<!-- 第二列 -->
+			<el-col :span="12">
 				<!-- 按钮,开启\关闭自动滚动 -->
 				<el-switch inactive-text="自动滚动开启" active-text="自动滚动关闭" class="switch" v-model="isRotate"
 					active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black" @change="isSpin">
 				</el-switch>
-			</div>
-		</div>
-		<img class="tip3" src="../assets/tip.png">
+			</el-col>
+
+
+		</el-row>
+		<!-- 第三行 -->
+		<el-row>
+			<el-col :span="24">
+				<img class="tip3" src="../assets/tip.png">
+				<!-- 交互提示 -->
+			</el-col>
+		</el-row>
 	</div>
 </template>
+<style scoped>
+	/*性能检测控件*/
+	.cardmini {
+		position: relative;
+		opacity: 0.0;
+	}
 
+	.rt1 {
+		/*threejs提示*/
+		height: 25px;
+	}
+
+	.tip3 {
+		/*交互提示*/
+		width: 87%;
+		z-index: -1;
+		margin-top: 100px;
+	}
+
+	.switch {
+		float: right;
+	}
+
+	.dvbox {
+		/*显示器*/
+		width: 1100px;
+		border-radius: 25px;
+		overflow: hidden;
+		box-shadow: 10px 10px #faf2b395;
+		cursor: pointer;
+	}
+</style>
 <script>
 	import axios from 'axios';
 	//异步跨域处理
@@ -314,157 +357,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.tip3 {
-		/*
-		position: absolute;
-		bottom: 10px;
-		left: 130px;
-
-		z-index: 0;
-		width: 85%;
-		height: auto;*/
-		position: absolute;
-		bottom: -370px;
-		left: 130px;
-		z-index: 0;
-		width: 85%;
-		height: auto;
-		background: none;
-	}
-
-	.el1 {
-		display: flex;
-		float: left;
-		width: 500px;
-
-	}
-
-	.el2 {
-
-		width: 600px;
-	}
-
-	.noe {
-		width: 1000px;
-		height: 50px;
-		display: flex;
-		position: absolute;
-		/*top:350px;
-		width: 1200px;
-		left:260px;
-		*/
-		top: 620px;
-		left: 80px;
-		z-index: 10;
-		flex: 1;
-	}
-
-	.el-card {
-		box-shadow: none;
-	}
-
-	.rt1 {
-		display: flex;
-		float: left;
-		height: 25px;
-	}
-
-	.switch {
-		display: flex;
-		float: right;
-	}
-
-	.homePage {
-		/*		position: relative;
-		top: 290px;
-		left: 90px;
-		height: 600px;
-		width: 1100px;
-		font-size: 14px;
-		color: #303133;
-		display: flex;
-		margin: 0 auto;*/
-		position: relative;
-		top: 0px;
-		left: -100px;
-		height: 560px;
-		width: 1100px;
-		font-size: 14px;
-		color: #303133;
-		display: flex;
-		margin: 0 auto;
-	}
-
-	.card {
-		width: 1100px;
-		height: 600px;
-	}
-
-
-
-	.el-card.card.is-always-shadow {
-		width: 1100px;
-		height: 700px;
-	}
-
-	.cardmini {
-		position: relative;
-		width: 70px;
-		height: 40px;
-		opacity: 0;
-	}
-
-	/*全景图画框*/
-	.mainpart {
-		display: flex;
-		box-shadow: 10px 10px #ecd98476;
-		border-radius: 25px;
-		overflow: hidden;
-	}
-
-	.el-card {
-		background-color: rgba(255, 255, 255, 0);
-		box-shadow: none;
-	}
-
-	.model {
-		cursor: pointer;
-		box-shadow: 1px rgb(255, 230, 0);
-		background-color: #303133;
-	}
-
-	.control {
-		display: flex;
-		flex-direction: column;
-		width: 300px;
-		height: 800px;
-		border: 1px solid #DCDFE6;
-		border-left: none;
-	}
-
-	.control-title {
-		font-size: 18px;
-		font-weight: 600;
-		text-align: center;
-		color: #409EFF;
-		padding: 10px;
-		border-bottom: 1px solid #DCDFE6;
-	}
-
-	.control-block {
-		padding: 10px;
-		border-bottom: 1px solid #DCDFE6;
-	}
-
-	.control-block-title {
-		display: block;
-		margin-bottom: 5px;
-	}
-
-	/* 自定义element样式 */
-	.el-card__header {
-		padding: 10px 20px;
-	}
-</style>
