@@ -76,6 +76,7 @@
 	import * as TrackballControls from 'three-trackballcontrols'
 	import * as ThreeStats from 'three-stats'
 	import { OBJLoader, MTLLoader } from 'three-obj-mtl-loader';
+	//操作控件
 	const OrbitControls = require('three-orbit-controls')(THREE);
 
 	export default {
@@ -92,12 +93,11 @@
 				controls: '', //控制器
 				stats: '', //性能监控器
 				mygroup: '', //模型组
-
-				action: '', //控制动画的值
+				action: '', //控制动画
 				clock: '', //时钟
 				mixer: '', //混合实例
 				rotateAnimate: '', //旋转动画
-				isRotate: 0, //是否开启旋转
+				isRotate: 0, //是否开启旋转,由switch监听
 				value: true
 			}
 		},
@@ -111,44 +111,41 @@
 			//js方法写在这里面
 			init() {
 				this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
-				this.rendererInit(); //创建渲染器
-				this.sceneInit(); //创建场景    包含光源和辅助坐标系
+				this.rendererInit(); //初始化渲染器
+				this.sceneInit(); //初始化场景
 				this.cameraInit(); //创建相机
 				this.controlInit(); //初始化控制器
 				this.propertyInit(); //性能监控
 				this.modelling(); //建立模型
 			},
 
-			modelling() { //开始建立模型
+			modelling() {
+				//模型建立函数
 				this.mygroup = new THREE.Group();
-
 				var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
-				//从服务器上取得图片
-				// var link='http://192.168.0.170:9001/haems-web/modules/web/images/%E6%AD%A3%E9%9D%A2.png';	
-				//vue加载图表需要用 require形式 从本地取,直接取本地是无法应用上的因为load只支持http协议 打包后变为file协议是无法使用的
-				//所以必须取服务上的图片 然后在vue.config中配置跨域
 				var img = textureLoader.load(require('../../public/img/home3.jpeg'));
-				//var img = textureLoader.load(link); //vue加载图表需要用 require形式
+				//加载全景图资源
 
 				var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
 				var material = new THREE.MeshLambertMaterial({
 					map: img, //设置颜色贴图属性值
-					side: THREE.DoubleSide, //双面渲染
+					side: THREE.DoubleSide, //使摄像头内部能够看到贴图,双面渲染
 				});
 				var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
 				meshSphere.name = '球体容器';
 				this.mygroup.add(meshSphere);
 
+				//标签
 				var canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象
 				var texture = new THREE.CanvasTexture(canvasText);
 				var geometryText = new THREE.PlaneGeometry(16, 10, 60, 60);
 				var materialText = new THREE.MeshPhongMaterial({
 					map: texture, // 设置纹理贴图
-					side: THREE.DoubleSide, //双面渲染
+					side: THREE.DoubleSide,
 				});
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = '闪现';
-				meshText.position.set(40, 20, -90)
+				meshText.position.set(40, 20, -90);
 				this.mygroup.add(meshText);
 
 				this.scene.add(this.mygroup);
