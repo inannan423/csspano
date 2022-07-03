@@ -119,25 +119,14 @@
                 }
                 Pictures.click()
             },
-            /*
-            buildPano(el) {
-                console.log('!!!!!');
-                // 初始化场景
-                this.viewer_main = new PANOLENS.Viewer({
-                    container: document.getElementById(this.dvbox), // 传入父容器dom
-                    output: 'console'  // 为了后面打印位置信息
-                })
-                // 传入官方案例的全景图片，初始化一个球形的全景
-                this.panorama_main_image = new PANOLENS.ImagePanorama(this.picurl)
-                // 把全景添加到场景中
-                this.viewer_main.add(this.panorama_main_image)
-            },*/
             uploadFile(el) {
                 this.$set(this.temp, 'isdisplay', false);
                 this.$message({
-                    message: '加载中，请稍后',
-                    type: 'success'
+                    duration: 9000,//设置提示时间
+                    message: '全景图生成中，请耐心等待十秒',
+                    type: 'warning'
                 });
+
                 if (el && el.target && el.target.files && el.target.files.length > 0) {
                     console.log('sss', el)
                     console.log('sss', el.target.files)
@@ -167,9 +156,13 @@
                             //const formData = new FormData()
                             //formData.append('file', files); // 可以传到后台的数据
                         };
+                        setTimeout(() => {
+                            this.init();
+                        }, 7000)
+
                     }
                 }
-                this.init();
+
             },
 
             // threejs方法
@@ -190,11 +183,17 @@
 
                 var img = textureLoader.load(this.temp.img);
                 //加载全景图资源
-                //var img = textureLoader.load(link);
-
+                const image = new Image();
+                image.src = this.picurl;
+                var texture1 = new THREE.Texture();
+                texture1.image = image;
+                image.onload = function () {
+                    texture1.needsUpdate = true;
+                };
+                console.log("22", texture1);
                 var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
                 var material = new THREE.MeshLambertMaterial({
-                    map: img, //设置颜色贴图属性值
+                    map: texture1, //设置颜色贴图属性值
                     side: THREE.DoubleSide, //使摄像头内部能够看到贴图,双面渲染
                 });
                 var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
@@ -210,13 +209,18 @@
                     side: THREE.DoubleSide,
                 });
                 var meshText = new THREE.Mesh(geometryText, materialText);
-                meshText.name = '闪现';
+                meshText.name = 'csspano';
                 meshText.position.set(40, 20, -90);
-                this.mygroup.add(meshText);
+                //this.mygroup.add(meshText);
 
                 this.scene.add(this.mygroup);
                 this.addAnimation(); //添加并开启动画
                 this.refresh();
+                this.$message({
+                    duration: 3000,//设置提示时间
+                    message: '生成完成',
+                    type: 'success'
+                });
             },
 
             isSpin(val) { //开启和关闭旋转
@@ -265,7 +269,7 @@
                 this.renderer.setPixelRatio(window.devicePixelRatio);
                 setTimeout(() => {
                     this.$refs.threeDom.appendChild(this.renderer.domElement);
-                }, 8000)
+                }, 2000)
 
             },
 
@@ -277,6 +281,7 @@
             },
 
             cameraInit() { //初始化相机
+                console.log("camera");
                 var width = 1100; //窗口宽度
                 var height = 800; //窗口高度
                 this.camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000); //使用透视相机
