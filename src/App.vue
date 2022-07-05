@@ -294,7 +294,7 @@
                   <el-menu-item index="2-2"> 拉萨 </el-menu-item>
                 </router-link>
                 <router-link class="a" to="/haitan">
-                  <el-menu-item index="2-3"> 海滩 </el-menu-item>
+                  <el-menu-item index="2-3"> 三亚海滨屋 </el-menu-item>
                 </router-link>
                 <router-link class="a" to="/riluo">
                   <el-menu-item index="2-4"> 日落 </el-menu-item>

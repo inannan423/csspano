@@ -219,9 +219,9 @@
 			controlInit() { //初始化控制器
 				this.controls = new OrbitControls(this.camera, this.$refs.threeDom); // 初始化控制器
 				this.controls.target.set(0, 0, 0); // 设置控制器的焦点，使控制器围绕这个焦点进行旋转
-				this.controls.minDistance = 10; // 设置移动的最短距离（默认为零）
+				this.controls.minDistance = 0; // 设置移动的最短距离（默认为零）
 				this.controls.maxPolarAngle = Math.PI; //绕垂直轨道的距离（范围是0-Math.PI,默认为Math.PI）
-				this.controls.maxDistance = 30; // 设置移动的最长距离（默认为无穷）
+				this.controls.maxDistance = 70; // 设置移动的最长距离（默认为无穷）
 				this.controls.enablePan = false; //禁用右键功能
 				this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件 让整个控件可以拖动
 			},
@@ -352,24 +352,6 @@
 					this.refresh();
 				}, 100)
 
-			},
-
-			getIntersects(event) { // 获取与射线相交的对象数组
-				event.preventDefault();
-				// 声明 raycaster 和 mouse 变量
-				var raycaster = new THREE.Raycaster(); //生成射线
-				var mouse = new THREE.Vector2();
-				var container = this.$refs.threeDom;
-				let getBoundingClientRect = container.getBoundingClientRect();
-				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1
-				mouse.x = ((event.clientX - getBoundingClientRect.left) / container.offsetWidth) * 2 - 1;
-				mouse.y = -((event.clientY - getBoundingClientRect.top) / container.offsetHeight) * 2 + 1;
-				//通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
-				raycaster.setFromCamera(mouse, this.camera);
-				// 获取与射线相交的对象数组，其中的元素按照距离排序，越近的越靠前
-				var intersects = raycaster.intersectObjects(this.scene.children[2].children);
-				//返回选中的对象
-				return intersects;
 			},
 		}
 	}

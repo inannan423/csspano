@@ -148,7 +148,7 @@
 				});
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = '闪现';
-				meshText.position.set(40, 20, -90);
+				meshText.position.set(80, 20, -70);
 				this.mygroup.add(meshText);
 
 				//心型物体
@@ -169,13 +169,14 @@
 				var mesh_heart = new THREE.Mesh(geometry_heart, material_heart);
 				mesh_heart.name = '图标1';//一个心型，对应一个名字
 				mesh_heart.position.set(-40, 20, -90);
-				mesh_heart.scale.set(0.5, 0.5, 0.5);
+				mesh_heart.scale.set(0.3, 0.5, 0.5);
+				mesh_heart.rotation.z = Math.PI;	// 旋转摆正
 				this.mygroup.add(mesh_heart);
 
 				//解释的文字1
-				var canvasText1 = this.getcanvers1('柜子：采用棕白相间的颜色，' + ' \n ' + '提高空间利用率'); //生成一个canvers 文字图案对象
+				var canvasText1 = this.getcanvers1('一个木制的柜子'); //生成一个canvers 文字图案对象
 				var texture1 = new THREE.CanvasTexture(canvasText1);
-				var geometryText1 = new THREE.PlaneGeometry(100, 100, 60, 60);
+				var geometryText1 = new THREE.PlaneGeometry(50, 50, 1, 1);
 				materialText1 = new THREE.MeshPhongMaterial({
 					map: texture1, // 设置纹理贴图
 					side: THREE.DoubleSide,
@@ -224,8 +225,10 @@
 				this.mixer.update(this.clock.getDelta());
 				if (sceneName == "sanya")//不同场景，图标可见性不同
 					material_heart.visible = false;
+				//在三亚场景中标识不可见
 				else
 					material_heart.visible = true;
+				//在其他场景中标识可见
 			},
 
 			rendererInit() { //初始化渲染器
@@ -245,7 +248,7 @@
 			sceneInit() { //初始化场景 并向场景添加光源和辅助坐标系
 				this.scene = new THREE.Scene();
 				var ambient = new THREE.AmbientLight(0x444444, 3); //添加光源  颜色和光照强度
-				var axisHelper = new THREE.AxesHelper(1); //添加辅助坐标系
+				var axisHelper = new THREE.AxesHelper(0); //添加辅助坐标系
 				this.scene.add(ambient, axisHelper);
 			},
 
@@ -281,16 +284,20 @@
 				var canvasText = document.createElement("canvas");
 				var c = canvasText.getContext('2d');
 				// 矩形区域填充背景
-				c.fillStyle = "rgba(240,255,255,0.1)";
+				c.fillStyle = "#F0F8FF";
+
 				//c.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
 				c.border = "thin dotted #FF0000";
-				c.borderRadius = "20px";
-				c.fillRect(0, 0, 280, 280); //生成一个矩形
+				//c.borderRadius = "20px";
+				c.fillRect(0, 0, 380, 380); //生成一个矩形
 				c.translate(160, 80);
 				c.fillStyle = "black"; //文本填充颜色
-				c.font = "bold 20px 幼圆"; //字体样式设置
-				c.textBaseline = "middle"; //文本与
+				c.font = "bold 16px 华文中宋"; //字体样式设置
+				c.textBaseline = "middle";
 				c.textAlign = "center"; //文本居中
+				c.whiteSpace = "pre";
+				c.opacity = "0.1";
+				c.zIndex = "101000";
 				c.fillText(text, 0, 0);
 				return canvasText;
 			},
@@ -322,7 +329,19 @@
 
 			onMouseDblclick(event) { //触发双击事件
 				// 获取 raycaster 和所有模型相交的数组，其中的元素按照距离排序，越近的越靠前
-				var intersects = this.getIntersects(event);
+				event.preventDefault();
+				// 声明 raycaster 和 mouse 变量
+				var raycaster = new THREE.Raycaster(); //生成射线
+				var mouse = new THREE.Vector2();
+				var container = this.$refs.threeDom;
+				let getBoundingClientRect = container.getBoundingClientRect();
+				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1
+				mouse.x = ((event.clientX - getBoundingClientRect.left) / container.offsetWidth) * 2 - 1;
+				mouse.y = -((event.clientY - getBoundingClientRect.top) / container.offsetHeight) * 2 + 1;
+				//通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
+				raycaster.setFromCamera(mouse, this.camera);
+				// 获取与射线相交的对象数组，其中的元素按照距离排序，越近的越靠前
+				var intersects = raycaster.intersectObjects(this.scene.children[2].children);
 				if (intersects.length != 0) {
 					for (var item of intersects) {
 						if (item.object.name == '闪现' || item.object.name == '返回') { //找到第一个不等于空的模型 就是自定义最近的模型
@@ -396,24 +415,6 @@
 					this.refresh();
 				}, 100)
 
-			},
-
-			getIntersects(event) { // 获取与射线相交的对象数组
-				event.preventDefault();
-				// 声明 raycaster 和 mouse 变量
-				var raycaster = new THREE.Raycaster(); //生成射线
-				var mouse = new THREE.Vector2();
-				var container = this.$refs.threeDom;
-				let getBoundingClientRect = container.getBoundingClientRect();
-				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1
-				mouse.x = ((event.clientX - getBoundingClientRect.left) / container.offsetWidth) * 2 - 1;
-				mouse.y = -((event.clientY - getBoundingClientRect.top) / container.offsetHeight) * 2 + 1;
-				//通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
-				raycaster.setFromCamera(mouse, this.camera);
-				// 获取与射线相交的对象数组，其中的元素按照距离排序，越近的越靠前
-				var intersects = raycaster.intersectObjects(this.scene.children[2].children);
-				//返回选中的对象
-				return intersects;
 			},
 		}
 	}
