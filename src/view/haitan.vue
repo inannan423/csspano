@@ -78,8 +78,9 @@
 	import { OBJLoader, MTLLoader } from 'three-obj-mtl-loader';
 	//操作控件
 	const OrbitControls = require('three-orbit-controls')(THREE);
-    var materialText1;
-    var meshText1;
+	var materialText1;//设置全局的文字材质，双击时，改变解释文字的可见性
+	var sceneName;//设置全局的场景名字，不同场景需要有不同图标
+	var material_heart;//设置全局的图标材质，改变场景，改变图标的可见性
 	export default {
 		props: {
 			msg: String
@@ -124,7 +125,7 @@
 				//模型建立函数
 				this.mygroup = new THREE.Group();
 				var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
-				var img = textureLoader.load(require('../../public/img/jia3.jpeg'));
+				var img = textureLoader.load(require('../../public/img/jia3.jpeg'));//第一个出现的场景的全景图
 				//加载全景图资源
 
 				var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
@@ -134,54 +135,55 @@
 				});
 				var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
 				meshSphere.name = '球体容器';
+				sceneName = 'jia';//这时场景名字是"jia"
 				this.mygroup.add(meshSphere);
 
 				//标签
-				var canvasText = this.getcanvers('走出'); //生成一个canvers 文字图案对象
+				var canvasText = this.getcanvers('走出'); //生成一个canvers 文字图案对象，文字是'走出'
 				var texture = new THREE.CanvasTexture(canvasText);
 				var geometryText = new THREE.PlaneGeometry(16, 10, 60, 60);
 				var materialText = new THREE.MeshPhongMaterial({
 					map: texture, // 设置纹理贴图
 					side: THREE.DoubleSide,
-                    //transparent:true,
-                    //opacity:1
 				});
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = '闪现';
 				meshText.position.set(40, 20, -90);
 				this.mygroup.add(meshText);
 
-                var x = 0,y = 0;
-                var heartShape = new THREE.Shape();
-                heartShape.moveTo(x + 5, -y + 5);
-                heartShape.bezierCurveTo(x + 5, -y + 5, x + 4, -y, x, -y);
-                heartShape.bezierCurveTo(x - 6, -y, x - 6, -y + 7, x - 6, -y + 7);
-                heartShape.bezierCurveTo(x - 6, -y + 11, x - 3, -y + 15.4, x + 5, -y + 19);
-                heartShape.bezierCurveTo(x + 12, -y + 15.4, x + 16, -y + 11, x + 16, -y + 7);
-                heartShape.bezierCurveTo(x + 16, -y + 7, x + 16, -y, x + 10, -y);
-                heartShape.bezierCurveTo(x + 7, -y, x + 5, -y + 5, x + 5, -y + 5);
-                var geometry_heart = new THREE.ShapeGeometry(heartShape);
-                var material_heart = new THREE.MeshBasicMaterial({
-                    color: 0xff0000,
-                    side: THREE.DoubleSide //双面显示
-                });
-                var mesh_heart = new THREE.Mesh(geometry_heart, material_heart);
-                mesh_heart.name='图标1';
-                mesh_heart.position.set(-40,20, -90);
-                mesh_heart.scale.set(0.5,0.5,0.5);
-                this.mygroup.add(mesh_heart);
-                //解释
-                var canvasText1 = this.getcanvers1('柜子：采用棕白相间的颜色，'+' \n '+'提高空间利用率'); //生成一个canvers 文字图案对象
+				//心型物体
+				var x = 0, y = 0;
+				var heartShape = new THREE.Shape();
+				heartShape.moveTo(x + 5, -y + 5);
+				heartShape.bezierCurveTo(x + 5, -y + 5, x + 4, -y, x, -y);
+				heartShape.bezierCurveTo(x - 6, -y, x - 6, -y + 7, x - 6, -y + 7);
+				heartShape.bezierCurveTo(x - 6, -y + 11, x - 3, -y + 15.4, x + 5, -y + 19);
+				heartShape.bezierCurveTo(x + 12, -y + 15.4, x + 16, -y + 11, x + 16, -y + 7);
+				heartShape.bezierCurveTo(x + 16, -y + 7, x + 16, -y, x + 10, -y);
+				heartShape.bezierCurveTo(x + 7, -y, x + 5, -y + 5, x + 5, -y + 5);
+				var geometry_heart = new THREE.ShapeGeometry(heartShape);
+				material_heart = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					side: THREE.DoubleSide //双面显示
+				});
+				var mesh_heart = new THREE.Mesh(geometry_heart, material_heart);
+				mesh_heart.name = '图标1';//一个心型，对应一个名字
+				mesh_heart.position.set(-40, 20, -90);
+				mesh_heart.scale.set(0.5, 0.5, 0.5);
+				this.mygroup.add(mesh_heart);
+
+				//解释的文字1
+				var canvasText1 = this.getcanvers1('柜子：采用棕白相间的颜色，' + ' \n ' + '提高空间利用率'); //生成一个canvers 文字图案对象
 				var texture1 = new THREE.CanvasTexture(canvasText1);
 				var geometryText1 = new THREE.PlaneGeometry(100, 100, 60, 60);
 				materialText1 = new THREE.MeshPhongMaterial({
 					map: texture1, // 设置纹理贴图
 					side: THREE.DoubleSide,
 				});
-				meshText1 = new THREE.Mesh(geometryText1, materialText1);
+				var meshText1 = new THREE.Mesh(geometryText1, materialText1);
 				meshText1.name = 'explain1';
 				meshText1.position.set(-40, 10, -90);
-                materialText1.visible=false;
+				materialText1.visible = false;//首先设置解释文字不可见
 				this.mygroup.add(meshText1);
 
 				this.scene.add(this.mygroup);
@@ -220,6 +222,10 @@
 			update() { //数据更新
 				this.stats.update();
 				this.mixer.update(this.clock.getDelta());
+				if (sceneName == "sanya")//不同场景，图标可见性不同
+					material_heart.visible = false;
+				else
+					material_heart.visible = true;
 			},
 
 			rendererInit() { //初始化渲染器
@@ -270,7 +276,8 @@
 			},
 
 
-            getcanvers1(text) { //生成一个canvers图案
+			//生成解释的文字
+			getcanvers1(text) { //生成一个canvers图案
 				var canvasText = document.createElement("canvas");
 				var c = canvasText.getContext('2d');
 				// 矩形区域填充背景
@@ -278,8 +285,7 @@
 				//c.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
 				c.border = "thin dotted #FF0000";
 				c.borderRadius = "20px";
-				c.fillRect(0, 0,280, 280); //生成一个矩形
-                //c.fillStyle = "transparent";  // 设为透明
+				c.fillRect(0, 0, 280, 280); //生成一个矩形
 				c.translate(160, 80);
 				c.fillStyle = "black"; //文本填充颜色
 				c.font = "bold 20px 幼圆"; //字体样式设置
@@ -289,6 +295,7 @@
 				return canvasText;
 			},
 
+			//生成切换场景的文字
 			getcanvers(text) { //生成一个canvers图案
 				var canvasText = document.createElement("canvas");
 				var c = canvasText.getContext('2d');
@@ -298,7 +305,7 @@
 				c.border = "thin dotted #FF0000";
 				c.borderRadius = "20px";
 				c.fillRect(0, 0, 300, 200); //生成一个矩形
-                c.fillStyle = "transparent";  // 设为透明
+				c.fillStyle = "transparent";  // 设为透明
 				c.translate(160, 80);
 				c.fillStyle = "black"; //文本填充颜色
 				c.font = "bold 100px 等线"; //字体样式设置
@@ -318,7 +325,7 @@
 				var intersects = this.getIntersects(event);
 				if (intersects.length != 0) {
 					for (var item of intersects) {
-						if (item.object.name == '闪现'||item.object.name == '返回') { //找到第一个不等于空的模型 就是自定义最近的模型
+						if (item.object.name == '闪现' || item.object.name == '返回') { //找到第一个不等于空的模型 就是自定义最近的模型
 							this.action.paused = true; //停止旋转			
 							this.$confirm('是否切换场景?', '提示', {
 								confirmButtonText: '切换',
@@ -336,14 +343,14 @@
 							});
 							break;
 						}
-                         if(item.object.name=="图标"+"1")
-                         {
-                            this.action.paused = true; //停止旋转	
-                            if(materialText1.visible)
-                                materialText1.visible=false;
-                            else
-                                materialText1.visible=true;
-                         }
+						if (item.object.name == "图标1")//如果点击的对象是“图标1”
+						{
+							this.action.paused = true; //停止旋转	
+							if (materialText1.visible)
+								materialText1.visible = false;
+							else
+								materialText1.visible = true;//如果原来不可见，则变得可见，如果原来可见，则变得不可见
+						}
 					}
 				} else { //这里是未选中状态
 				}
@@ -355,11 +362,13 @@
 				var canvasText = '';
 				var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
 				if (type == 'enter') {
-					img = textureLoader.load(require('../../public/img/haibian.jpg')); //vue加载图表需要用 require形式
+					img = textureLoader.load(require('../../public/img/sanya.jpg')); //vue加载图表需要用 require形式
+					sceneName = 'sanya';//改变场景名
 					canvasText = this.getcanvers('返回'); //生成一个canvers 文字图案对象	
 					names = '返回';
 				} else if (type == 'backtrack') { //返回房间
-					img = textureLoader.load(require('../../public/img/jia3.jpeg')); //vue加载图表需要用 require形式	
+					img = textureLoader.load(require('../../public/img/jia3.jpeg')); //vue加载图表需要用 require形式
+					sceneName = 'jia';//改变场景名	
 					canvasText = this.getcanvers('走出'); //生成一个canvers 文字图案对象	
 					names = '闪现';
 				}

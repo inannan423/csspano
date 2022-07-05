@@ -310,7 +310,7 @@
                 </el-menu-item>
               </router-link>
             </el-menu>
-            <a href="https://inannan423.github.io" target="_blank">
+            <a href="https://jetzihan.netlify.app" target="_blank">
               <img src="./assets/jet.png" class="jets" alt="jet"></a>
           </el-scrollbar>
         </el-col>

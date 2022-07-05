@@ -67,6 +67,7 @@
 		overflow: hidden;
 		box-shadow: 10px 10px #faf2b395;
 		cursor: pointer;
+
 	}
 </style>
 <script>
@@ -128,7 +129,7 @@
 
 				var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
 				var material = new THREE.MeshLambertMaterial({
-					map: img, //设置颜色贴图属性值
+					map: img, //设置贴图属性
 					side: THREE.DoubleSide, //使摄像头内部能够看到贴图,双面渲染
 				});
 				var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
@@ -202,9 +203,9 @@
 
 			sceneInit() { //初始化场景 并向场景添加光源和辅助坐标系
 				this.scene = new THREE.Scene();
-				var ambient = new THREE.AmbientLight(0x444444, 3); //添加光源  颜色和光照强度
-				var axisHelper = new THREE.AxesHelper(0); //添加辅助坐标系
-				this.scene.add(ambient, axisHelper);
+				var ambient = new THREE.AmbientLight(0x444445, 3); //添加光源颜色和光照强度
+				var axisHelper = new THREE.AxesHelper(0); //隐藏坐标系
+				this.scene.add(ambient, axisHelper);//渲染
 			},
 
 			cameraInit() { //初始化相机
@@ -268,10 +269,23 @@
 
 			onMouseDblclick(event) { //触发双击事件
 				// 获取 raycaster 和所有模型相交的数组，其中的元素按照距离排序，越近的越靠前
-				var intersects = this.getIntersects(event);
+				//var intersects = this.getIntersects(event);
+				event.preventDefault();
+				// 声明 raycaster 和 mouse 变量
+				var raycaster = new THREE.Raycaster(); //生成射线
+				var mouse = new THREE.Vector2();
+				var container = this.$refs.threeDom;
+				let getBoundingClientRect = container.getBoundingClientRect();
+				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1
+				mouse.x = ((event.clientX - getBoundingClientRect.left) / container.offsetWidth) * 2 - 1;
+				mouse.y = -((event.clientY - getBoundingClientRect.top) / container.offsetHeight) * 2 + 1;
+				//通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
+				raycaster.setFromCamera(mouse, this.camera);
+				// 获取与射线相交的对象数组，其中的元素按照距离排序，越近的越靠前
+				var intersects = raycaster.intersectObjects(this.scene.children[2].children);
 				if (intersects.length != 0) {
 					for (var item of intersects) {
-						if (item.object.name != '') { //找到第一个不等于空的模型 就是自定义最近的模型
+						if (item.object.name == '闪现' || item.object.name == '返回') { //找到第一个不等于空的模型 就是自定义最近的模型
 							this.action.paused = true; //停止旋转			
 							this.$confirm('是否切换场景?', '提示', {
 								confirmButtonText: '切换',
@@ -290,11 +304,17 @@
 							break;
 						}
 					}
-				} else { //这里是未选中状态
+				} else { //未选中状态
+					console.log("未选中状态");
 				}
 			},
 
 			changeScene(type) {
+				this.$message({
+					duration: 5000,//设置提示时间
+					message: '资源较大，请耐心等待',
+					type: 'warning'
+				});
 				var img = '';
 				var names = '';
 				var canvasText = '';
@@ -303,7 +323,7 @@
 					img = textureLoader.load(require('../../public/img/home1.jpg')); //vue加载图表需要用 require形式
 					canvasText = this.getcanvers('返回'); //生成一个canvers 文字图案对象	
 					names = '返回';
-				} else if (type == 'backtrack') { //返回房间
+				} else if (type == 'backtrack') { //返回
 					img = textureLoader.load(require('../../public/img/home3.jpeg')); //vue加载图表需要用 require形式	
 					canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象	
 					names = '闪现';

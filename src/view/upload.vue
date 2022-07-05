@@ -1,6 +1,6 @@
 <!-- <template>
     <div class="alert-box-item">
-        <div class="bigImg-div" @click="GrtImage">
+        <div class="bigImg-div" @click="GetImg">
             <img class="bigImg" :src=picurl v-if="picurl">
         </div>
     </div>
@@ -47,7 +47,7 @@
             <!-- <div class="dvbox">
                 <img class="bigImg" :src=picurl v-if="picurl">
             </div> -->
-            <div class="btn" @click="GrtImage">
+            <div class="btn" @click="GetImg">
                 <p>UPLOAD</p>
             </div>
         </div>
@@ -101,14 +101,13 @@
         },
         methods: {
             //图片读取方法
-            GrtImage() {
-                console.log(this.temp.isdisplay);
+            GetImg() {
                 if (Pictures === null) {
                     // 生成文件上传的控件
                     Pictures = document.createElement('input')
                     Pictures.setAttribute('type', 'file')
                     Pictures.style.display = 'none'
-
+                    // 更改视图
                     if (window.addEventListener) {
                         Pictures.addEventListener('change', this.uploadFile, false)
                     } else {
@@ -122,15 +121,13 @@
             uploadFile(el) {
                 this.$set(this.temp, 'isdisplay', false);
                 this.$message({
-                    duration: 9000,//设置提示时间
+                    duration: 5000,//设置提示时间
                     message: '全景图生成中，请耐心等待十秒',
                     type: 'warning'
                 });
 
                 if (el && el.target && el.target.files && el.target.files.length > 0) {
-                    console.log('sss', el)
-                    console.log('sss', el.target.files)
-                    this.$set(this.temp, 'img', el);
+                    //this.$set(this.temp, 'img', el);
 
                     const files = el.target.files[0]
                     const isLt2M = files.size / 1024 / 1024 < 100
@@ -151,14 +148,16 @@
                             // 读取完成后，将结果赋值给img的src
                             that.picurl = this.result;
                             console.log(this.result);
-
-                            // 数据传到后台
-                            //const formData = new FormData()
-                            //formData.append('file', files); // 可以传到后台的数据
                         };
+
                         setTimeout(() => {
                             this.init();
-                        }, 7000)
+                        }, 4000)
+                        /*
+                        this.$nextTick(function () {
+                            // DOM 更新了
+                            this.init();
+                        })*/
 
                     }
                 }
@@ -181,7 +180,6 @@
                 this.mygroup = new THREE.Group();
                 var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
 
-                var img = textureLoader.load(this.temp.img);
                 //加载全景图资源
                 const image = new Image();
                 image.src = this.picurl;
@@ -190,7 +188,6 @@
                 image.onload = function () {
                     texture1.needsUpdate = true;
                 };
-                console.log("22", texture1);
                 var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
                 var material = new THREE.MeshLambertMaterial({
                     map: texture1, //设置颜色贴图属性值
@@ -438,7 +435,7 @@
                 }
                 document.body.removeChild(Pictures)
                 Pictures = null
-                console.log('========Pictures destroy')
+                console.log('destroy')
             }
         },
 

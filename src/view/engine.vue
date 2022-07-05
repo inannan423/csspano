@@ -9,7 +9,7 @@
                 <a href="https://github.com/inannan423/csspano" target="_blank">这个仓库</a> 给我们一个Star!非常感谢.
             </p>
             <p><a href="https://jetzihan.netlify.app/pages/a23dcc/">文档地址</a></p>
-            <p>contributer: <a href="https://jetzihan.netlify.app/" target="_blank">Jetzihan</a> |
+            <p>contributor: <a href="https://jetzihan.netlify.app/" target="_blank">Jetzihan</a> |
                 <a href="https://github.com/Stutuer" target="_blank">Stutuer</a> |
                 <a href="https://github.com/songyifan1" target="_blank">songyifan</a>
             </p>
@@ -55,7 +55,7 @@
     }
 
     .tech2 {
-        width: 70%;
-        margin-top: 30px;
+        width: 50%;
+        margin-top: 60px;
     }
 </style>
