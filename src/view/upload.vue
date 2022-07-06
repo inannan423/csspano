@@ -28,7 +28,7 @@
             <el-col :span="12">
                 <!-- 按钮,开启\关闭自动滚动 -->
                 <el-switch inactive-text="自动滚动开启" active-text="自动滚动关闭" class="switch" v-model="isRotate"
-                    @change="isSpin" active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black">
+                    @change="Action" active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black">
                 </el-switch>
             </el-col>
 
@@ -80,7 +80,7 @@
                 camera: '', //相机
                 controls: '', //控制器
                 stats: '', //性能监控器
-                mygroup: '', //模型组
+                css_Group: '', //模型组
                 action: '', //控制动画
                 clock: '', //时钟
                 mixer: '', //混合实例
@@ -166,18 +166,18 @@
 
             // threejs方法
             init() {
-                //this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
-                this.rendererInit(); //初始化渲染器
-                this.sceneInit(); //初始化场景
-                this.cameraInit(); //创建相机
-                this.controlInit(); //初始化控制器
-                this.propertyInit(); //性能监控
-                this.modelling(); //建立模型
+                //this.$refs.threeDom.addEventListener('dblclick', this.DoubleClick); //监听双击事件
+                this.css_Renderer(); //初始化渲染器
+                this.css_scene(); //初始化场景
+                this.css_camera(); //创建相机
+                this.css_control(); //初始化控制器
+                this.css_prop(); //性能监控
+                this.css_model(); //建立模型
             },
 
-            modelling() {
+            css_model() {
                 //模型建立函数
-                this.mygroup = new THREE.Group();
+                this.css_Group = new THREE.Group();
                 var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
 
                 //加载全景图资源
@@ -195,7 +195,7 @@
                 });
                 var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
                 meshSphere.name = '球体容器';
-                this.mygroup.add(meshSphere);
+                this.css_Group.add(meshSphere);
 
                 //标签
                 var canvasText = this.getcanvers('闪现'); //生成一个canvers 文字图案对象
@@ -208,9 +208,9 @@
                 var meshText = new THREE.Mesh(geometryText, materialText);
                 meshText.name = 'csspano';
                 meshText.position.set(40, 20, -90);
-                //this.mygroup.add(meshText);
+                //this.css_Group.add(meshText);
 
-                this.scene.add(this.mygroup);
+                this.scene.add(this.css_Group);
                 this.addAnimation(); //添加并开启动画
                 this.refresh();
                 this.$message({
@@ -220,7 +220,7 @@
                 });
             },
 
-            isSpin(val) { //开启和关闭旋转
+            Action(val) { //开启和关闭旋转
                 if (val == 0) { //关闭控制台		
                     this.action.paused = true;
                 } else {
@@ -235,7 +235,7 @@
                 var keyframe = new THREE.KeyframeTrack('meshSphere.rotation[y]', times, position_x);
                 var duration = 100; //持续时间
                 var cilp = new THREE.AnimationClip('sphereRotate', duration, [keyframe]); //剪辑 keyframe对象
-                this.mixer = new THREE.AnimationMixer(this.mygroup); //动画混合实例
+                this.mixer = new THREE.AnimationMixer(this.css_Group); //动画混合实例
                 this.action = this.mixer.clipAction(cilp);
                 this.action.timeScale = 1; //播放速度
                 this.action.setLoop(THREE.LoopPingPong).play(); //开始播放 像乒乓球一样在起始点与结束点之间来回循环
@@ -253,7 +253,7 @@
                 this.mixer.update(this.clock.getDelta());
             },
 
-            rendererInit() { //初始化渲染器
+            css_Renderer() { //初始化渲染器
                 var width = 1100; //窗口宽度
                 var height = 600; //窗口高度
 
@@ -270,14 +270,14 @@
 
             },
 
-            sceneInit() { //初始化场景 并向场景添加光源和辅助坐标系
+            css_scene() { //初始化场景 并向场景添加光源和辅助坐标系
                 this.scene = new THREE.Scene();
                 var ambient = new THREE.AmbientLight(0x444444, 3); //添加光源  颜色和光照强度
                 var axisHelper = new THREE.AxesHelper(0); //添加辅助坐标系
                 this.scene.add(ambient, axisHelper);
             },
 
-            cameraInit() { //初始化相机
+            css_camera() { //初始化相机
                 console.log("camera");
                 var width = 1100; //窗口宽度
                 var height = 800; //窗口高度
@@ -286,7 +286,7 @@
                 this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // 相机看向
             },
 
-            controlInit() { //初始化控制器
+            css_control() { //初始化控制器
                 this.controls = new OrbitControls(this.camera, this.$refs.threeDom); // 初始化控制器
                 this.controls.target.set(0, 0, 0); // 设置控制器的焦点，使控制器围绕这个焦点进行旋转
                 this.controls.minDistance = 10; // 设置移动的最短距离（默认为零）
@@ -296,7 +296,7 @@
                 this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件 让整个控件可以拖动
             },
 
-            propertyInit() { //初始化性能监控
+            css_prop() { //初始化性能监控
                 this.stats = new ThreeStats.Stats(); // 创建一个性能监视器	
                 this.stats.dom.style.position = 'absolute';
                 this.stats.dom.style.top = '-4px';
@@ -340,7 +340,7 @@
                 this.stats.update(); //更新性能监控的值			
             },
 
-            onMouseDblclick(event) { //触发双击事件
+            DoubleClick(event) { //触发双击事件
                 // 获取 raycaster 和所有模型相交的数组，其中的元素按照距离排序，越近的越靠前
                 var intersects = this.getIntersects(event);
                 if (intersects.length != 0) {
