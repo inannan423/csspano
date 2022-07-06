@@ -22,7 +22,7 @@
 			<el-col :span="12">
 				<!-- 按钮,开启\关闭自动滚动 -->
 				<el-switch inactive-text="自动滚动开启" active-text="自动滚动关闭" class="switch" v-model="isRotate"
-					active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black" @change="Action">
+					active-value="0" inactive-value="1" inactive-color="#ffd000" active-color="black" @change="isSpin">
 				</el-switch>
 			</el-col>
 
@@ -79,8 +79,15 @@
 	//操作控件
 	const OrbitControls = require('three-orbit-controls')(THREE);
 	var materialText1;//设置全局的文字材质，双击时，改变解释文字的可见性
+	var materialText2;
+	var materialText3;
+	var materialText4;
 	var sceneName;//设置全局的场景名字，不同场景需要有不同图标
 	var material_heart;//设置全局的图标材质，改变场景，改变图标的可见性
+	var material_heart2;//设置全局的图标材质，改变场景，改变图标的可见性
+	var material_heart3;//设置全局的图标材质，改变场景，改变图标的可见性
+	var material_heart4;//设置全局的图标材质，改变场景，改变图标的可见性
+
 	export default {
 		props: {
 			msg: String
@@ -88,13 +95,13 @@
 		data() {
 			return {
 				//vue数据容器
-				g_renderer: '', //渲染器
+				renderer: '', //渲染器
 				scene: '', //场景
 				light: '', //光源
 				camera: '', //相机
 				controls: '', //控制器
 				stats: '', //性能监控器
-				css_Group: '', //模型组
+				mygroup: '', //模型组
 				action: '', //控制动画
 				clock: '', //时钟
 				mixer: '', //混合实例
@@ -112,18 +119,18 @@
 		methods: {
 			//js方法写在这里面
 			init() {
-				this.$refs.threeDom.addEventListener('dblclick', this.DoubleClick); //监听双击事件
-				this.css_Renderer(); //初始化渲染器
-				this.css_scene(); //初始化场景
-				this.css_camera(); //创建相机
-				this.css_control(); //初始化控制器
-				this.css_prop(); //性能监控
-				this.css_model(); //建立模型
+				this.$refs.threeDom.addEventListener('dblclick', this.onMouseDblclick); //监听双击事件
+				this.rendererInit(); //初始化渲染器
+				this.sceneInit(); //初始化场景
+				this.cameraInit(); //创建相机
+				this.controlInit(); //初始化控制器
+				this.propertyInit(); //性能监控
+				this.modelling(); //建立模型
 			},
 
-			css_model() {
+			modelling() {
 				//模型建立函数
-				this.css_Group = new THREE.Group();
+				this.mygroup = new THREE.Group();
 				var textureLoader = new THREE.TextureLoader(); //创建纹理贴图		
 				var img = textureLoader.load(require('../../public/img/jia3.jpeg'));//第一个出现的场景的全景图
 				//加载全景图资源
@@ -136,7 +143,7 @@
 				var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	
 				meshSphere.name = '球体容器';
 				sceneName = 'jia';//这时场景名字是"jia"
-				this.css_Group.add(meshSphere);
+				this.mygroup.add(meshSphere);
 
 				//标签
 				var canvasText = this.getcanvers('走出'); //生成一个canvers 文字图案对象，文字是'走出'
@@ -149,7 +156,7 @@
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = '闪现';
 				meshText.position.set(80, 20, -70);
-				this.css_Group.add(meshText);
+				this.mygroup.add(meshText);
 
 				//心型物体
 				var x = 0, y = 0;
@@ -171,28 +178,115 @@
 				mesh_heart.position.set(-40, 20, -90);
 				mesh_heart.scale.set(0.3, 0.5, 0.5);
 				mesh_heart.rotation.z = Math.PI;	// 旋转摆正
-				this.css_Group.add(mesh_heart);
+				this.mygroup.add(mesh_heart);
+
+				//心型2
+				material_heart2 = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					side: THREE.DoubleSide //双面显示
+				});
+				var mesh_heart2 = new THREE.Mesh(geometry_heart, material_heart);
+				mesh_heart2.name = '图标2';//一个心型，对应一个名字
+				mesh_heart2.position.set(100, 20, 50);
+				mesh_heart2.scale.set(0.6, 0.6, 0.6);
+				mesh_heart2.rotation.z = Math.PI;	// 旋转摆正
+				this.mygroup.add(mesh_heart2);
+
+				//心型3
+				material_heart3 = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					side: THREE.DoubleSide //双面显示
+				});
+				var mesh_heart3 = new THREE.Mesh(geometry_heart, material_heart);
+				mesh_heart3.name = '图标3';//一个心型，对应一个名字
+				mesh_heart3.position.set(-20, -10, 50);
+				mesh_heart3.scale.set(0.3, 0.5, 0.5);
+				mesh_heart3.rotation.z = Math.PI;	// 旋转摆正
+				this.mygroup.add(mesh_heart3);
+
+				//心型4
+				material_heart4 = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					side: THREE.DoubleSide //双面显示
+				});
+				var mesh_heart4 = new THREE.Mesh(geometry_heart, material_heart);
+				mesh_heart4.name = '图标4';//一个心型，对应一个名字
+				mesh_heart4.position.set(-80, 10, -20);
+				mesh_heart4.scale.set(0.3, 0.5, 0.5);
+				mesh_heart4.rotation.z = Math.PI;	// 旋转摆正
+				mesh_heart4.rotation.y = Math.PI * 0.5;	// 旋转摆正
+				this.mygroup.add(mesh_heart4);
 
 				//解释的文字1
-				var canvasText1 = this.getcanvers1('一个木制的柜子'); //生成一个canvers 文字图案对象
-				var texture1 = new THREE.CanvasTexture(canvasText1);
-				var geometryText1 = new THREE.PlaneGeometry(50, 50, 1, 1);
+				var texture1 = new THREE.TextureLoader(); //创建纹理贴图      
+				var img = texture1.load(require('../../public/img/explain1.png'));//第一个出现的场景的全景图
+				var geometryText1 = new THREE.PlaneGeometry(30, 15);
 				materialText1 = new THREE.MeshPhongMaterial({
-					map: texture1, // 设置纹理贴图
+					map: img, // 设置纹理贴图
 					side: THREE.DoubleSide,
+					backgroundColor: 0xffffff
 				});
 				var meshText1 = new THREE.Mesh(geometryText1, materialText1);
 				meshText1.name = 'explain1';
-				meshText1.position.set(-40, 10, -90);
+				meshText1.position.set(-30, 20, -50);
 				materialText1.visible = false;//首先设置解释文字不可见
-				this.css_Group.add(meshText1);
+				this.mygroup.add(meshText1);
 
-				this.scene.add(this.css_Group);
+				//解释的文字2
+				var texture2 = new THREE.TextureLoader(); //创建纹理贴图      
+				var img = texture2.load(require('../../public/img/explain2.png'));//第一个出现的场景的全景图
+				var geometryText2 = new THREE.PlaneGeometry(30, 15);
+				materialText2 = new THREE.MeshPhongMaterial({
+					map: img, // 设置纹理贴图
+					side: THREE.DoubleSide,
+					backgroundColor: 0xffffff
+				});
+				var meshText2 = new THREE.Mesh(geometryText2, materialText2);
+				meshText2.name = 'explain2';
+				meshText2.position.set(38, 15, 30);
+				meshText2.rotation.y = Math.PI;	// 旋转摆正
+				materialText2.visible = false;//首先设置解释文字不可见
+				this.mygroup.add(meshText2);
+
+				//解释的文字3
+				var texture3 = new THREE.TextureLoader(); //创建纹理贴图      
+				var img = texture3.load(require('../../public/img/explain3.png'));//第一个出现的场景的全景图
+				var geometryText3 = new THREE.PlaneGeometry(30, 15);
+				materialText3 = new THREE.MeshPhongMaterial({
+					map: img, // 设置纹理贴图
+					side: THREE.DoubleSide,
+					backgroundColor: 0xffffff
+				});
+				var meshText3 = new THREE.Mesh(geometryText3, materialText3);
+				meshText3.name = 'explain3';
+				meshText3.position.set(-20, 0, 50);
+				meshText3.rotation.y = Math.PI;	// 旋转摆正
+				materialText3.visible = false;//首先设置解释文字不可见
+				this.mygroup.add(meshText3);
+
+				//解释的文字4
+				var texture4 = new THREE.TextureLoader(); //创建纹理贴图      
+				var img = texture4.load(require('../../public/img/explain4.png'));//第一个出现的场景的全景图
+				var geometryText4 = new THREE.PlaneGeometry(30, 15);
+				materialText4 = new THREE.MeshPhongMaterial({
+					map: img, // 设置纹理贴图
+					side: THREE.DoubleSide,
+					backgroundColor: 0xffffff
+				});
+				var meshText4 = new THREE.Mesh(geometryText4, materialText4);
+				meshText4.name = 'explain4';
+				meshText4.position.set(-50, 20, -20);
+				meshText4.rotation.y = Math.PI * 0.5;	// 旋转摆正
+				materialText4.visible = false;//首先设置解释文字不可见
+				this.mygroup.add(meshText4);
+
+
+				this.scene.add(this.mygroup);
 				this.addAnimation(); //添加并开启动画
 				this.refresh();
 			},
 
-			Action(val) { //开启和关闭旋转
+			isSpin(val) { //开启和关闭旋转
 				if (val == 0) { //关闭控制台		
 					this.action.paused = true;
 				} else {
@@ -207,7 +301,7 @@
 				var keyframe = new THREE.KeyframeTrack('meshSphere.rotation[y]', times, position_x);
 				var duration = 100; //持续时间
 				var cilp = new THREE.AnimationClip('sphereRotate', duration, [keyframe]); //剪辑 keyframe对象
-				this.mixer = new THREE.AnimationMixer(this.css_Group); //动画混合实例
+				this.mixer = new THREE.AnimationMixer(this.mygroup); //动画混合实例
 				this.action = this.mixer.clipAction(cilp);
 				this.action.timeScale = 1; //播放速度
 				this.action.setLoop(THREE.LoopPingPong).play(); //开始播放 像乒乓球一样在起始点与结束点之间来回循环
@@ -216,7 +310,7 @@
 
 			animate() { //循环渲染
 				this.rotateAnimate = requestAnimationFrame(this.animate);
-				this.g_renderer.render(this.scene, this.camera);
+				this.renderer.render(this.scene, this.camera);
 				this.update();
 			},
 
@@ -224,35 +318,45 @@
 				this.stats.update();
 				this.mixer.update(this.clock.getDelta());
 				if (sceneName == "sanya")//不同场景，图标可见性不同
+				{
 					material_heart.visible = false;
+					material_heart2.visible = false;
+					material_heart3.visible = false;
+					material_heart4.visible = false;
+				}
 				//在三亚场景中标识不可见
-				else
+				else {
 					material_heart.visible = true;
+					material_heart2.visible = true;
+					material_heart3.visible = false;
+					material_heart4.visible = false;
+				}
+
 				//在其他场景中标识可见
 			},
 
-			css_Renderer() { //初始化渲染器
+			rendererInit() { //初始化渲染器
 				var width = 1100; //窗口宽度
 				var height = 600; //窗口高度
 
-				//this.g_renderer = new THREE.WebGLRenderer(); //创建渲染器
-				this.g_renderer = new THREE.WebGLRenderer({
+				//this.renderer = new THREE.WebGLRenderer(); //创建渲染器
+				this.renderer = new THREE.WebGLRenderer({
 					antialias: true,     //抗锯齿
 				});
-				this.g_renderer.setClearColor(0xffffff); //添加背景颜色
-				this.g_renderer.setSize(width, height); // 设定渲染器尺寸
-				this.g_renderer.setPixelRatio(window.devicePixelRatio);
-				this.$refs.threeDom.appendChild(this.g_renderer.domElement);
+				this.renderer.setClearColor(0xffffff); //添加背景颜色
+				this.renderer.setSize(width, height); // 设定渲染器尺寸
+				this.renderer.setPixelRatio(window.devicePixelRatio);
+				this.$refs.threeDom.appendChild(this.renderer.domElement);
 			},
 
-			css_scene() { //初始化场景 并向场景添加光源和辅助坐标系
+			sceneInit() { //初始化场景 并向场景添加光源和辅助坐标系
 				this.scene = new THREE.Scene();
 				var ambient = new THREE.AmbientLight(0x444444, 3); //添加光源  颜色和光照强度
 				var axisHelper = new THREE.AxesHelper(0); //添加辅助坐标系
 				this.scene.add(ambient, axisHelper);
 			},
 
-			css_camera() { //初始化相机
+			cameraInit() { //初始化相机
 				var width = 1100; //窗口宽度
 				var height = 800; //窗口高度
 				this.camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000); //使用透视相机
@@ -260,7 +364,7 @@
 				this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // 相机看向
 			},
 
-			css_control() { //初始化控制器
+			controlInit() { //初始化控制器
 				this.controls = new OrbitControls(this.camera, this.$refs.threeDom); // 初始化控制器
 				this.controls.target.set(0, 0, 0); // 设置控制器的焦点，使控制器围绕这个焦点进行旋转
 				this.controls.minDistance = 10; // 设置移动的最短距离（默认为零）
@@ -270,7 +374,7 @@
 				this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件 让整个控件可以拖动
 			},
 
-			css_prop() { //初始化性能监控
+			propertyInit() { //初始化性能监控
 				this.stats = new ThreeStats.Stats(); // 创建一个性能监视器	
 				this.stats.dom.style.position = 'absolute';
 				this.stats.dom.style.top = '-4px';
@@ -279,28 +383,28 @@
 			},
 
 
-			//生成解释的文字
-			getcanvers1(text) { //生成一个canvers图案
-				var canvasText = document.createElement("canvas");
-				var c = canvasText.getContext('2d');
-				// 矩形区域填充背景
-				c.fillStyle = "#F0F8FF";
+			// //生成解释的文字
+			// getcanvers1(text) { //生成一个canvers图案
+			// 	var canvasText = document.createElement("canvas");
+			// 	var c = canvasText.getContext('2d');
+			// 	// 矩形区域填充背景
+			// 	c.fillStyle = "#F0F8FF";
 
-				//c.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
-				c.border = "thin dotted #FF0000";
-				//c.borderRadius = "20px";
-				c.fillRect(0, 0, 380, 380); //生成一个矩形
-				c.translate(160, 80);
-				c.fillStyle = "black"; //文本填充颜色
-				c.font = "bold 16px 华文中宋"; //字体样式设置
-				c.textBaseline = "middle";
-				c.textAlign = "center"; //文本居中
-				c.whiteSpace = "pre";
-				c.opacity = "0.1";
-				c.zIndex = "101000";
-				c.fillText(text, 0, 0);
-				return canvasText;
-			},
+			// 	//c.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
+			// 	c.border = "thin dotted #FF0000";
+			// 	//c.borderRadius = "20px";
+			// 	c.fillRect(0, 0, 380, 380); //生成一个矩形
+			// 	c.translate(160, 80);
+			// 	c.fillStyle = "black"; //文本填充颜色
+			// 	c.font = "bold 16px 华文中宋"; //字体样式设置
+			// 	c.textBaseline = "middle";
+			// 	c.textAlign = "center"; //文本居中
+			// 	c.whiteSpace = "pre";
+			// 	c.opacity = "0.1";
+			// 	c.zIndex = "101000";
+			// 	c.fillText(text, 0, 0);
+			// 	return canvasText;
+			// },
 
 			//生成切换场景的文字
 			getcanvers(text) { //生成一个canvers图案
@@ -323,11 +427,11 @@
 			},
 
 			refresh() { //刷新页面 
-				this.g_renderer.render(this.scene, this.camera); //执行渲染操作
+				this.renderer.render(this.scene, this.camera); //执行渲染操作
 				this.stats.update(); //更新性能监控的值			
 			},
 
-			DoubleClick(event) { //触发双击事件
+			onMouseDblclick(event) { //触发双击事件
 				// 获取 raycaster 和所有模型相交的数组，其中的元素按照距离排序，越近的越靠前
 				event.preventDefault();
 				// 声明 raycaster 和 mouse 变量
@@ -369,6 +473,30 @@
 								materialText1.visible = false;
 							else
 								materialText1.visible = true;//如果原来不可见，则变得可见，如果原来可见，则变得不可见
+						}
+						if (item.object.name == "图标2")//如果点击的对象是“图标1”
+						{
+							this.action.paused = true; //停止旋转	
+							if (materialText2.visible)
+								materialText2.visible = false;
+							else
+								materialText2.visible = true;//如果原来不可见，则变得可见，如果原来可见，则变得不可见
+						}
+						if (item.object.name == "图标3")//如果点击的对象是“图标1”
+						{
+							this.action.paused = true; //停止旋转	
+							if (materialText3.visible)
+								materialText3.visible = false;
+							else
+								materialText3.visible = true;//如果原来不可见，则变得可见，如果原来可见，则变得不可见
+						}
+						if (item.object.name == "图标4")//如果点击的对象是“图标1”
+						{
+							this.action.paused = true; //停止旋转	
+							if (materialText4.visible)
+								materialText4.visible = false;
+							else
+								materialText4.visible = true;//如果原来不可见，则变得可见，如果原来可见，则变得不可见
 						}
 					}
 				} else { //这里是未选中状态

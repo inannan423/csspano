@@ -145,19 +145,15 @@
                         const reader = new FileReader(); // 创建读取文件对象
                         reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
                         reader.onload = function () { // 文件读取完成后
-                            // 读取完成后，将结果赋值给img的src
+                            // 读取完成后，将base64编码结果赋值给img的src
                             that.picurl = this.result;
                             console.log(this.result);
                         };
 
                         setTimeout(() => {
                             this.init();
-                        }, 4000)
-                        /*
-                        this.$nextTick(function () {
-                            // DOM 更新了
-                            this.init();
-                        })*/
+                        }, 4000)    // 等待dom挂起
+  
 
                     }
                 }
@@ -182,7 +178,7 @@
 
                 //加载全景图资源
                 const image = new Image();
-                image.src = this.picurl;
+                image.src = this.picurl;    // 读取base64编码
                 var texture1 = new THREE.Texture();
                 texture1.image = image;
                 image.onload = function () {
@@ -190,7 +186,7 @@
                 };
                 var geometry = new THREE.SphereGeometry(130, 256, 256); // 球体网格模型
                 var material = new THREE.MeshLambertMaterial({
-                    map: texture1, //设置颜色贴图属性值
+                    map: texture1, //将编码作为纹理贴图
                     side: THREE.DoubleSide, //使摄像头内部能够看到贴图,双面渲染
                 });
                 var meshSphere = new THREE.Mesh(geometry, material); //网格模型对象Mesh	

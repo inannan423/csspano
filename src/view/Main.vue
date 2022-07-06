@@ -229,7 +229,7 @@
 				this.controls.minDistance = 0;
 				this.controls.maxDistance = 70; // 最大放大
 				this.controls.enablePan = false;
-				this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件 让整个控件可以拖动
+				this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件
 			},
 
 			css_prop() { //初始化性能监控
@@ -248,11 +248,11 @@
 				cans.backgroundColor = "rgba(255,215,0,0.3)"; //背景颜色
 				cans.border = "thin dotted #FF0000";
 				cans.borderRadius = "20px";
-				cans.fillRect(0, 0, 300, 200); //生成一个矩形
+				cans.fillRect(0, 0, 300, 200); //生成矩形
 				cans.translate(160, 80);
-				cans.fillStyle = "black"; //文本填充颜色
-				cans.font = "bold 100px 等线"; //字体样式设置
-				cans.textBaseline = "middle"; //文本与
+				cans.fillStyle = "black"; //文本颜色
+				cans.font = "bold 100px 等线"; //字体样式
+				cans.textBaseline = "middle"; 
 				cans.textAlign = "center"; //文本居中
 				cans.fillText(text, 0, 0);
 
@@ -280,12 +280,13 @@
 				var mouse = new THREE.Vector2();
 				var container = this.$refs.threeDom;
 				let getBoundingClientRect = container.getBoundingClientRect();
-				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1
+				// 通过鼠标点击位置,计算出 raycaster 所需点的位置 分量,以屏幕为中心点,范围 -1 到 1 （归一化）
 				mouse.x = ((event.clientX - getBoundingClientRect.left) / container.offsetWidth) * 2 - 1;
+				//	获取归一化之后的鼠标x坐标，创建新的原点
 				mouse.y = -((event.clientY - getBoundingClientRect.top) / container.offsetHeight) * 2 + 1;
-				//	通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
+				//	获取归一化之后的鼠标y坐标，创建新的原点
 				raycaster.setFromCamera(mouse, this.camera);
-				// 获取与射线相交的对象数组，其中的元素按照距离排序，越近的越靠前
+				// 用新的原点和方向来更新射线
 				var intersects = raycaster.intersectObjects(this.scene.children[2].children);
 				if (intersects.length != 0) {
 					for (var item of intersects) {
