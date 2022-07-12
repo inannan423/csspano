@@ -9,6 +9,7 @@ import riluo from '../view/riluo'
 import upload from '../view/upload'
 import about from '../view/about'
 import Main from '../view/Main'
+import threed from '../view/3d'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -49,6 +50,11 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component: upload
+    },
+    {
+      path: '/3d',
+      name: 'threed',
+      component: threed
     }
   ]
 })

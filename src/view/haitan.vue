@@ -323,6 +323,10 @@
 					material_heart2.visible = false;
 					material_heart3.visible = false;
 					material_heart4.visible = false;
+					materialText1.visible = false;
+					materialText2.visible = false;
+					materialText3.visible = false;
+					materialText4.visible = false;
 				}
 				//在三亚场景中标识不可见
 				else {

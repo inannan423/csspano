@@ -35,9 +35,33 @@
 				<!-- 交互提示 -->
 			</el-col>
 		</el-row>
+		<!-- <div class="ismax" @click="tomax">
+			<img class="ismax_img" src="../assets/ismax.png" alt="ismax">
+		</div> -->
 	</div>
 </template>
 <style scoped>
+	.ismax {
+		/*放大缩小按钮*/
+		position: absolute;
+		height: 50px;
+		width: 50px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 50%;
+		box-shadow: 0 0 10px #ffee6b;
+		right: 26px;
+		top: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+	}
+
+	.ismax_img {
+		height: 30px;
+		width: 30px;
+	}
+
 	/*性能检测控件*/
 	.cardmini {
 		position: relative;
@@ -61,6 +85,16 @@
 	}
 
 	.dvbox {
+		/*显示器*/
+		width: 1100px;
+		border-radius: 25px;
+		overflow: hidden;
+		box-shadow: 10px 10px #faf2b395;
+		cursor: pointer;
+
+	}
+
+	.change_dvbox {
 		/*显示器*/
 		width: 1100px;
 		border-radius: 25px;
@@ -99,7 +133,12 @@
 				mixer: '', //混合实例
 				rotateAnimate: '', //旋转动画
 				isRotate: 0, //是否开启旋转,由switch监听
-				value: true
+				value: true,
+				fonds: {
+					dvHeight: 600,
+					dvWidth: 1100
+				}
+
 			}
 		},
 
@@ -113,6 +152,7 @@
 		},
 
 		methods: {
+
 			//js方法写在这里面
 			init() {
 				this.$refs.threeDom.addEventListener('dblclick', this.DoubleClick); //监听双击事件
@@ -193,9 +233,10 @@
 			},
 
 			css_Renderer() { //初始化渲染器
-				var width = 1100; //窗口宽度
-				var height = 600; //窗口高度
-
+				//var width = 1100; //窗口宽度
+				//var height = 600; //窗口高度
+				var width = this.fonds.dvWidth;
+				var height = this.fonds.dvHeight;
 				//this.renderer = new THREE.WebGLRenderer(); //创建渲染器
 				this.renderer = new THREE.WebGLRenderer({
 					antialias: true,     //抗锯齿
@@ -215,8 +256,10 @@
 			},
 
 			css_camera() { //初始化相机
-				var width = 1100; //窗口宽度
-				var height = 800; //窗口高度
+				//var width = 1100; //窗口宽度
+				//var height = 800; //窗口高度
+				var width = this.fonds.dvWidth; //窗口宽度
+				var height = this.fonds.dvHeight; //窗口高度
 				this.camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000); //使用透视相机
 				this.camera.position.set(0, 0, 10); //设置相机位置
 				this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // 相机看向
@@ -252,7 +295,7 @@
 				cans.translate(160, 80);
 				cans.fillStyle = "black"; //文本颜色
 				cans.font = "bold 100px 等线"; //字体样式
-				cans.textBaseline = "middle"; 
+				cans.textBaseline = "middle";
 				cans.textAlign = "center"; //文本居中
 				cans.fillText(text, 0, 0);
 
@@ -353,6 +396,12 @@
 				setTimeout(() => { //延迟刷新
 					this.refresh();
 				}, 100)
+
+			},
+			tomax() {
+				console.log("change view");
+				this.$set(this.fonds, 'dvHeight', 2200);
+				this.$set(this.fonds, 'dvWidth', 1200);
 
 			},
 		}

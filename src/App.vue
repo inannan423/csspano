@@ -224,6 +224,7 @@
   .toptip {
     height: 26px;
     width: 100%;
+    /*background: repeating-linear-gradient(-35deg, rgb(255, 217, 0), rgb(255, 217, 0) 20px, white 10px, white 40px);*/
     background-color: #ffd000;
     position: fixed;
     left: -20px;
@@ -299,7 +300,9 @@
                 <router-link class="a" to="/riluo">
                   <el-menu-item index="2-4"> 日落 </el-menu-item>
                 </router-link>
-
+                <router-link class="a" to="/3d">
+                  <el-menu-item index="2-5"> Meathouse </el-menu-item>
+                </router-link>
               </el-submenu>
               <router-link class="a" to="/upload">
                 <el-menu-item index="3"><img class="myicon" src="../src/assets/media.png" alt="" />上传图片

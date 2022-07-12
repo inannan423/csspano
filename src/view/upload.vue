@@ -153,7 +153,7 @@
                         setTimeout(() => {
                             this.init();
                         }, 4000)    // 等待dom挂起
-  
+
 
                     }
                 }
