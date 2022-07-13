@@ -1,12 +1,14 @@
 <template>
 	<div class="main">
+		<audio src="../assets/bk.mp3" ref="MusicPlay" loop='true' autoplay="autoplay" hidden></audio>
+
 		<div class="cardmini">
 			<span ref='property'></span>
 			<!-- 性能检测空间，已隐藏 -->
 		</div>
 		<!-- 第一行 -->
 		<el-row>
-			<el-col :span="24" class="dvbox">
+			<el-col :span="24" :class="{ 'dvbox': fonds.isActive, 'afbox': fonds.isSort }">
 				<div ref='threeDom' class="model"></div>
 				<!-- threejs渲染槽 -->
 			</el-col>
@@ -35,9 +37,9 @@
 				<!-- 交互提示 -->
 			</el-col>
 		</el-row>
-		<!-- <div class="ismax" @click="tomax">
+		<div class="ismax" @click="tomax">
 			<img class="ismax_img" src="../assets/ismax.png" alt="ismax">
-		</div> -->
+		</div>
 	</div>
 </template>
 <style scoped>
@@ -55,6 +57,7 @@
 		justify-content: center;
 		align-items: center;
 		cursor: pointer;
+		z-index: 100001;
 	}
 
 	.ismax_img {
@@ -87,11 +90,26 @@
 	.dvbox {
 		/*显示器*/
 		width: 1100px;
+		height: 600px;
 		border-radius: 25px;
 		overflow: hidden;
 		box-shadow: 10px 10px #faf2b395;
 		cursor: pointer;
+	}
 
+	.afbox {
+		/*显示器*/
+		width: 6100px;
+		height: 100%;
+		border-radius: 0px;
+		overflow: none;
+		box-shadow: none;
+		cursor: pointer;
+		position: fixed;
+		z-index: 10000;
+		left: 0px;
+		top: 0px;
+		bottom: 0px;
 	}
 
 	.change_dvbox {
@@ -134,9 +152,12 @@
 				rotateAnimate: '', //旋转动画
 				isRotate: 0, //是否开启旋转,由switch监听
 				value: true,
+				i: -1,
 				fonds: {
-					dvHeight: 600,
-					dvWidth: 1100
+					isActive: 1,//控制不放大类
+					isSort: 0,//控制放大类
+					dvHeight: 900,
+					dvWidth: 1600
 				}
 
 			}
@@ -148,6 +169,7 @@
 			//that.$nextTick(function () {
 			//	this.init()
 			//});
+			this.$refs.MusicPlay.play()
 
 		},
 
@@ -200,7 +222,7 @@
 				var meshText = new THREE.Mesh(geometryText, materialText);
 				meshText.name = '闪现';
 				meshText.position.set(40, 20, -90);
-				this.css_Group.add(meshText);
+				//this.css_Group.add(meshText);
 				this.scene.add(this.css_Group);
 				this.addAnimation(); //开启动画
 				this.refresh();
@@ -209,8 +231,8 @@
 
 			addAnimation() { //添加并开启动画
 				this.clock = new THREE.Clock(); // three.js 时钟对象
-				var times = [0, 3600]; //	创建帧动画序列
-				var position_x = [0, 360]; //离散属性值
+				var times = [0, 1800]; //	创建帧动画序列
+				var position_x = [0, 180]; //离散属性值
 				var keyframe = new THREE.KeyframeTrack('meshSphere.rotation[y]', times, position_x);
 				var duration = 100; //持续时间
 				var cilp = new THREE.AnimationClip('sphereRotate', duration, [keyframe]); //剪辑 keyframe对象
@@ -399,10 +421,25 @@
 
 			},
 			tomax() {
-				console.log("change view");
-				this.$set(this.fonds, 'dvHeight', 2200);
-				this.$set(this.fonds, 'dvWidth', 1200);
+				this.i = -this.i;
+				console.log(this.i);
+				if (this.i == 1) {
+					console.log("change view");
+					this.$set(this.fonds, 'dvHeight', 1100);
+					this.$set(this.fonds, 'dvWidth', 600);
+					this.$set(this.fonds, 'isActive', 0);
+					this.$set(this.fonds, 'isSort', 1);
+					console.log(this.fonds.dvHeight);
 
+				}
+				else if (this.i == -1) {
+					console.log("change view1");
+					this.$set(this.fonds, 'dvHeight', 6100);
+					this.$set(this.fonds, 'dvWidth', 3200);
+					this.$set(this.fonds, 'isActive', 1);
+					this.$set(this.fonds, 'isSort', 0);
+					console.log(this.fonds.dvHeight);
+				}
 			},
 		}
 	}

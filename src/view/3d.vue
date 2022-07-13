@@ -1,5 +1,6 @@
 <template>
     <div class="main">
+        <audio src="../assets/bk.mp3" ref="MusicPlay" loop='true' autoplay="autoplay" hidden></audio>
         <div class="cardmini">
             <span ref='property'></span>
             <!-- 性能检测空间，已隐藏 -->
@@ -148,7 +149,7 @@
             //that.$nextTick(function () {
             //	this.init()
             //});
-
+            this.$refs.MusicPlay.play()
         },
 
         methods: {
