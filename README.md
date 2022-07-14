@@ -1,6 +1,6 @@
 # CSSPANO
 
-## 基于vue2\three.js\element的全景图项目
+## 基于vue2\three.js\elementUI的全景图项目
 
 ## 初始化
 
