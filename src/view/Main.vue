@@ -1,7 +1,8 @@
 <template>
 	<div class="main">
-		<audio src="../assets/bk.mp3" ref="MusicPlay" loop='true' autoplay="autoplay" hidden></audio>
-
+		<audio
+			src="https://6e61-nannan-1g1q4u2i02398ecf-1311679880.tcb.qcloud.la/%E6%B8%A9%E9%A6%A8%E7%9A%84%E5%90%89%E4%BB%96%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90_%E8%80%B3%E8%81%86%E7%BD%91_%5B%E5%A3%B0%E9%9F%B3ID%EF%BC%9A38313%5D.mp3?sign=7f0c022de3a8fc2d739fbd36a56d37f9&t=1657866949"
+			controls ref="MusicPlay" loop='true' autoplay="autoplay"></audio>
 		<div class="cardmini">
 			<span ref='property'></span>
 			<!-- 性能检测空间，已隐藏 -->
@@ -37,6 +38,7 @@
 				<!-- 交互提示 -->
 			</el-col>
 		</el-row>
+		<!-- 放大缩小，准备了两套css代码 -->
 		<div class="ismax" @click="tomax">
 			<img class="ismax_img" src="../assets/ismax.png" alt="ismax">
 		</div>
@@ -293,7 +295,7 @@
 				this.controls.maxPolarAngle = Math.PI; //绕垂直轨道的距离
 				this.controls.minDistance = 0;
 				this.controls.maxDistance = 70; // 最大放大
-				this.controls.enablePan = false;
+				this.controls.enablePan = false;	//右键拖拽
 				this.controls.addEventListener('change', this.refresh); //监听鼠标、键盘事件
 			},
 
@@ -422,6 +424,7 @@
 			},
 			tomax() {
 				this.i = -this.i;
+				//标记位，放大缩小判定
 				console.log(this.i);
 				if (this.i == 1) {
 					console.log("change view");
@@ -430,7 +433,6 @@
 					this.$set(this.fonds, 'isActive', 0);
 					this.$set(this.fonds, 'isSort', 1);
 					console.log(this.fonds.dvHeight);
-
 				}
 				else if (this.i == -1) {
 					console.log("change view1");

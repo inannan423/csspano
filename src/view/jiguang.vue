@@ -1,5 +1,8 @@
 <template>
     <div class="main">
+        <audio
+            src="https://6e61-nannan-1g1q4u2i02398ecf-1311679880.tcb.qcloud.la/%E6%B8%A9%E9%A6%A8%E7%9A%84%E5%90%89%E4%BB%96%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90_%E8%80%B3%E8%81%86%E7%BD%91_%5B%E5%A3%B0%E9%9F%B3ID%EF%BC%9A38313%5D.mp3?sign=7f0c022de3a8fc2d739fbd36a56d37f9&t=1657866949"
+            controls ref="MusicPlay" loop='true' autoplay="autoplay"></audio>
         <div class="cardmini">
             <span ref='property'></span>
             <!-- 性能检测空间，已隐藏 -->
